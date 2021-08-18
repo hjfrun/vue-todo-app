@@ -67,6 +67,54 @@
         </v-btn>
       </template>
     </v-snackbar>
+
+    <v-dialog v-model="deleteDialog" max-width="320">
+      <v-card>
+        <v-card-title class="text-h5 text-break-keep-all">
+          Are you sure you wanna delete this task?
+        </v-card-title>
+
+        <v-card-text class="text-break-keep-all">
+          {{ currentTask.title }}</v-card-text
+        >
+
+        <v-card-actions>
+          <v-spacer></v-spacer>
+
+          <v-btn color="primary darken-1" text @click="deleteDialog = false">
+            Cancel
+          </v-btn>
+
+          <v-btn color="red darken-2" text @click="deleteDialogConfirmclick">
+            Yes
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
+    <v-dialog v-model="editDialog" max-width="320">
+      <v-card>
+        <v-card-title class="text-h5 text-break-keep-all">
+          Are you sure you wanna delete this task?
+        </v-card-title>
+
+        <v-card-text class="text-break-keep-all">
+          {{ currentTask.title }}</v-card-text
+        >
+
+        <v-card-actions>
+          <v-spacer></v-spacer>
+
+          <v-btn color="primary darken-1" text @click="editDialog = false">
+            Cancel
+          </v-btn>
+
+          <v-btn color="red darken-2" text @click="editDialogConfirmclick">
+            Yes
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
@@ -87,6 +135,7 @@ export default {
           icon: 'mdi-pencil',
           action() {
             console.log('Edit task')
+            this.editDialog = true
           }
         },
         {
@@ -99,9 +148,8 @@ export default {
         {
           title: 'Delete',
           icon: 'mdi-delete',
-          action(id) {
-            // this.deleteTask(id)
-            this.DELETE_TASK(id)
+          action() {
+            this.deleteDialog = true
           }
         },
         {
@@ -111,7 +159,10 @@ export default {
             console.log('sort')
           }
         }
-      ]
+      ],
+      deleteDialog: false,
+      currentTask: { title: '', done: false },
+      editDialog: false
     }
   },
   computed: {
@@ -121,22 +172,27 @@ export default {
     this.FETCH_TASKS()
   },
   methods: {
-    // ...mapMutations(['addTask', 'deleteTask', 'doneTask']),
     ...mapActions(['FETCH_TASKS', 'ADD_TASK', 'DELETE_TASK', 'DONE_TASK']),
     addTaskClick() {
       if (this.newTaskTitle.trim() == '') return
       const newTask = {
-        // id: Date.now(),
         title: this.newTaskTitle,
         done: false
       }
-      // this.addTask(newTask)
       this.ADD_TASK(newTask)
       this.snackbar = true
       this.newTaskTitle = ''
     },
     actionClick(index, id) {
-      this.moreActions[index].action.call(this, id)
+      this.currentTask = this.tasks.find(task => task.id === id)
+      this.moreActions[index].action.call(this)
+    },
+    deleteDialogConfirmclick() {
+      this.deleteDialog = false
+      this.DELETE_TASK(this.currentTask.id)
+    },
+    editDialogConfirmclick() {
+      this.editDialog = false
     }
   }
 }
@@ -147,5 +203,9 @@ export default {
   width: 100vw;
   padding-top: 40%;
   text-align: center;
+}
+
+.text-break-keep-all {
+  word-break: keep-all;
 }
 </style>
