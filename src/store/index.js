@@ -27,7 +27,7 @@ export default new Vuex.Store({
   actions: {
     async FETCH_TASKS({ commit }) {
       const tasks = await db.tasks.toArray()
-      commit('fetchTasks', tasks)
+      commit('fetchTasks', tasks.reverse())
     },
 
     async ADD_TASK({ commit }, task) {
