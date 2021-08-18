@@ -15,7 +15,7 @@
       <div v-for="task in tasks" :key="task.id">
         <v-list-item
           :class="{ 'blue lighten-5': task.done }"
-          @click="doneTask(task.id)"
+          @click="DONE_TASK(task.id)"
         >
           <template v-slot:default>
             <v-list-item-action>
@@ -72,7 +72,7 @@
 
 <script>
 
-import { mapState, mapMutations } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 
 export default {
   name: 'Home',
@@ -100,7 +100,8 @@ export default {
           title: 'Delete',
           icon: 'mdi-delete',
           action(id) {
-            this.deleteTask(id)
+            // this.deleteTask(id)
+            this.DELETE_TASK(id)
           }
         },
         {
@@ -116,16 +117,21 @@ export default {
   computed: {
     ...mapState(['tasks'])
   },
+  created() {
+    this.FETCH_TASKS()
+  },
   methods: {
-    ...mapMutations(['addTask', 'deleteTask', 'doneTask']),
+    // ...mapMutations(['addTask', 'deleteTask', 'doneTask']),
+    ...mapActions(['FETCH_TASKS', 'ADD_TASK', 'DELETE_TASK', 'DONE_TASK']),
     addTaskClick() {
       if (this.newTaskTitle.trim() == '') return
       const newTask = {
-        id: Date.now(),
+        // id: Date.now(),
         title: this.newTaskTitle,
         done: false
       }
-      this.addTask(newTask)
+      // this.addTask(newTask)
+      this.ADD_TASK(newTask)
       this.snackbar = true
       this.newTaskTitle = ''
     },
