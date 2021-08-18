@@ -82,13 +82,6 @@ export default {
       timeout: 2000,
       moreActions: [
         {
-          title: 'Delete',
-          icon: 'mdi-delete',
-          action(id) {
-            this.deleteTask(id)
-          }
-        },
-        {
           title: 'Edit',
           icon: 'mdi-pencil',
           action() {
@@ -100,6 +93,20 @@ export default {
           icon: 'mdi-calendar',
           action() {
             console.log('due date')
+          }
+        },
+        {
+          title: 'Delete',
+          icon: 'mdi-delete',
+          action(id) {
+            this.deleteTask(id)
+          }
+        },
+        {
+          title: 'Sort',
+          icon: 'mdi-reorder-horizontal',
+          action() {
+            console.log('sort')
           }
         }
       ]
