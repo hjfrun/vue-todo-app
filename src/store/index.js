@@ -22,6 +22,11 @@ export default new Vuex.Store({
     doneTask(state, id) {
       const task = state.tasks.find(task => task.id === id)
       task.done = !task.done
+    },
+    changeTaskTitle(state, { id, newTitle }) {
+      console.log(id, newTitle)
+      const task = state.tasks.find(task => task.id === id)
+      task.title = newTitle
     }
   },
   actions: {
@@ -56,6 +61,16 @@ export default new Vuex.Store({
         await db.tasks.put(task)
       } catch (err) {
         console.log('done task failed', err)
+      }
+    },
+
+    async CHANGE_TASK_TITLE({ commit, state }, { id, newTitle }) {
+      commit('changeTaskTitle', { id, newTitle })
+      const task = state.tasks.find(task => task.id === id)
+      try {
+        await db.tasks.put(task)
+      } catch (err) {
+        console.log('change task title failed', err)
       }
     }
   },

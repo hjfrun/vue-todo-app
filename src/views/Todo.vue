@@ -95,12 +95,15 @@
     <v-dialog v-model="editDialog" max-width="320">
       <v-card>
         <v-card-title class="text-h5 text-break-keep-all">
-          Are you sure you wanna delete this task?
+          Edit the current task title
         </v-card-title>
 
-        <v-card-text class="text-break-keep-all">
-          {{ currentTask.title }}</v-card-text
-        >
+        <v-card-text>
+          <v-text-field
+            placeholder="Task name"
+            v-model="editTaskTitle"
+          ></v-text-field>
+        </v-card-text>
 
         <v-card-actions>
           <v-spacer></v-spacer>
@@ -127,6 +130,7 @@ export default {
   data() {
     return {
       newTaskTitle: '',
+      editTaskTitle: '',
       snackbar: false,
       timeout: 2000,
       moreActions: [
@@ -134,8 +138,8 @@ export default {
           title: 'Edit',
           icon: 'mdi-pencil',
           action() {
-            console.log('Edit task')
             this.editDialog = true
+            this.editTaskTitle = this.currentTask.title.slice()
           }
         },
         {
@@ -172,7 +176,7 @@ export default {
     this.FETCH_TASKS()
   },
   methods: {
-    ...mapActions(['FETCH_TASKS', 'ADD_TASK', 'DELETE_TASK', 'DONE_TASK']),
+    ...mapActions(['FETCH_TASKS', 'ADD_TASK', 'DELETE_TASK', 'DONE_TASK', 'CHANGE_TASK_TITLE']),
     addTaskClick() {
       if (this.newTaskTitle.trim() == '') return
       const newTask = {
@@ -193,6 +197,9 @@ export default {
     },
     editDialogConfirmclick() {
       this.editDialog = false
+      console.log(this.editTaskTitle)
+      this.CHANGE_TASK_TITLE({ id: this.currentTask.id, newTitle: this.editTaskTitle })
+      // this.editTaskTitle = ''
     }
   }
 }
