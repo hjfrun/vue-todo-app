@@ -31,7 +31,7 @@
 
             <v-list-item-action>
               <v-btn icon @click.stop="deleteTask(task.id)">
-                <v-icon color="primary lighten-1">mdi-delete</v-icon>
+                <v-icon color="primary lighten-1">mdi-dots-vertical</v-icon>
               </v-btn>
             </v-list-item-action>
           </template>
