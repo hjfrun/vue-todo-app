@@ -30,9 +30,25 @@
             </v-list-item-content>
 
             <v-list-item-action>
-              <v-btn icon @click.stop="deleteTask(task.id)">
-                <v-icon color="primary lighten-1">mdi-dots-vertical</v-icon>
-              </v-btn>
+              <v-menu offset-y>
+                <template v-slot:activator="{ on, attrs }">
+                  <v-btn icon dark v-bind="attrs" v-on="on">
+                    <v-icon color="primary lighten-1">mdi-dots-vertical</v-icon>
+                  </v-btn>
+                </template>
+                <v-list>
+                  <v-list-item
+                    v-for="(item, index) in moreActions"
+                    :key="index"
+                    @click="actionClick(index, task.id)"
+                  >
+                    <v-list-item-icon>
+                      <v-icon v-text="item.icon"></v-icon>
+                    </v-list-item-icon>
+                    <v-list-item-title>{{ item.title }}</v-list-item-title>
+                  </v-list-item>
+                </v-list>
+              </v-menu>
             </v-list-item-action>
           </template>
         </v-list-item>
@@ -63,7 +79,30 @@ export default {
       newTaskTitle: '',
       tasks: [],
       snackbar: false,
-      timeout: 2000
+      timeout: 2000,
+      moreActions: [
+        {
+          title: 'Delete',
+          icon: 'mdi-delete',
+          action(id) {
+            this.deleteTask(id)
+          }
+        },
+        {
+          title: 'Edit',
+          icon: 'mdi-pencil',
+          action() {
+            console.log('Edit task')
+          }
+        },
+        {
+          title: 'Due Date',
+          icon: 'mdi-calendar',
+          action() {
+            console.log('due date')
+          }
+        }
+      ]
     }
   },
   methods: {
@@ -85,6 +124,9 @@ export default {
       this.tasks.push(newTask)
       this.snackbar = true
       this.newTaskTitle = ''
+    },
+    actionClick(index, id) {
+      this.moreActions[index].action.call(this, id)
     }
   }
 }
