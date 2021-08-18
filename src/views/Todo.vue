@@ -102,6 +102,7 @@
           <v-text-field
             placeholder="Task name"
             v-model="editTaskTitle"
+            @keyup.enter="editDialogConfirmclick"
           ></v-text-field>
         </v-card-text>
 
@@ -199,7 +200,7 @@ export default {
       this.editDialog = false
       console.log(this.editTaskTitle)
       this.CHANGE_TASK_TITLE({ id: this.currentTask.id, newTitle: this.editTaskTitle })
-      // this.editTaskTitle = ''
+      this.editTaskTitle = ''
     }
   }
 }
