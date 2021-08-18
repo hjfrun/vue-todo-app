@@ -9,53 +9,52 @@ export default new Vuex.Store({
     tasks: []
   },
   mutations: {
-    fetchTasks(state, tasks) {
+    FETCH_TASKS(state, tasks) {
       state.tasks = tasks
     },
-    addTask(state, task) {
+    ADD_TASK(state, task) {
       state.tasks.unshift(task)
     },
-    deleteTask(state, id) {
+    DELETE_TASK(state, id) {
       const index = state.tasks.findIndex(task => task.id === id)
       state.tasks.splice(index, 1)
     },
-    doneTask(state, id) {
+    DONE_TASK(state, id) {
       const task = state.tasks.find(task => task.id === id)
       task.done = !task.done
     },
-    changeTaskTitle(state, { id, newTitle }) {
-      console.log(id, newTitle)
+    CHANGE_TASK_TITLE(state, { id, newTitle }) {
       const task = state.tasks.find(task => task.id === id)
       task.title = newTitle
     }
   },
   actions: {
-    async FETCH_TASKS({ commit }) {
+    async fetchTasks({ commit }) {
       const tasks = await db.tasks.toArray()
-      commit('fetchTasks', tasks.reverse())
+      commit('FETCH_TASKS', tasks.reverse())
     },
 
-    async ADD_TASK({ commit }, task) {
+    async addTask({ commit }, task) {
       try {
         const id = await db.tasks.add(task)
-        commit('addTask', task)
+        commit('ADD_TASK', task)
         console.log('add task', id)
       } catch (err) {
         console.log('add task failed')
       }
     },
 
-    async DELETE_TASK({ commit }, id) {
+    async deleteTask({ commit }, id) {
       try {
         await db.tasks.delete(id)
-        commit('deleteTask', id)
+        commit('DELETE_TASK', id)
       } catch (err) {
         console.log('err while delete the task', err)
       }
     },
 
-    async DONE_TASK({ commit, state }, id) {
-      commit('doneTask', id)
+    async doneTask({ commit, state }, id) {
+      commit('DONE_TASK', id)
       const task = state.tasks.find(task => task.id === id)
       try {
         await db.tasks.put(task)
@@ -64,8 +63,8 @@ export default new Vuex.Store({
       }
     },
 
-    async CHANGE_TASK_TITLE({ commit, state }, { id, newTitle }) {
-      commit('changeTaskTitle', { id, newTitle })
+    async changeTaskTitle({ commit, state }, { id, newTitle }) {
+      commit('CHANGE_TASK_TITLE', { id, newTitle })
       const task = state.tasks.find(task => task.id === id)
       try {
         await db.tasks.put(task)

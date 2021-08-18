@@ -15,7 +15,7 @@
       <div v-for="task in tasks" :key="task.id">
         <v-list-item
           :class="{ 'blue lighten-5': task.done }"
-          @click="DONE_TASK(task.id)"
+          @click="doneTask(task.id)"
         >
           <template v-slot:default>
             <v-list-item-action>
@@ -174,17 +174,18 @@ export default {
     ...mapState(['tasks'])
   },
   created() {
-    this.FETCH_TASKS()
+    this.fetchTasks()
   },
   methods: {
-    ...mapActions(['FETCH_TASKS', 'ADD_TASK', 'DELETE_TASK', 'DONE_TASK', 'CHANGE_TASK_TITLE']),
+    ...mapActions(['fetchTasks', 'addTask', 'deleteTask', 'doneTask', 'changeTaskTitle']),
+
     addTaskClick() {
       if (this.newTaskTitle.trim() == '') return
       const newTask = {
         title: this.newTaskTitle,
         done: false
       }
-      this.ADD_TASK(newTask)
+      this.addTask(newTask)
       this.snackbar = true
       this.newTaskTitle = ''
     },
@@ -194,12 +195,12 @@ export default {
     },
     deleteDialogConfirmclick() {
       this.deleteDialog = false
-      this.DELETE_TASK(this.currentTask.id)
+      this.deleteTask(this.currentTask.id)
     },
     editDialogConfirmclick() {
       this.editDialog = false
       console.log(this.editTaskTitle)
-      this.CHANGE_TASK_TITLE({ id: this.currentTask.id, newTitle: this.editTaskTitle })
+      this.changeTaskTitle({ id: this.currentTask.id, newTitle: this.editTaskTitle })
       this.editTaskTitle = ''
     }
   }
