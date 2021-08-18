@@ -2,8 +2,8 @@
   <div class="todo">
     <v-text-field
       v-model="newTaskTitle"
-      @click:append="addTask"
-      @keyup.enter="addTask"
+      @click:append="addTaskClick"
+      @keyup.enter="addTaskClick"
       class="pa-3"
       outlined
       label="Add Task"
@@ -72,12 +72,13 @@
 
 <script>
 
+import { mapState, mapMutations } from 'vuex'
+
 export default {
   name: 'Home',
   data() {
     return {
       newTaskTitle: '',
-      tasks: [],
       snackbar: false,
       timeout: 2000,
       moreActions: [
@@ -112,23 +113,19 @@ export default {
       ]
     }
   },
+  computed: {
+    ...mapState(['tasks'])
+  },
   methods: {
-    doneTask(id) {
-      const task = this.tasks.find(task => task.id === id)
-      task.done = !task.done
-    },
-    deleteTask(id) {
-      const index = this.tasks.findIndex(task => task.id === id)
-      this.tasks.splice(index, 1)
-    },
-    addTask() {
+    ...mapMutations(['addTask', 'deleteTask', 'doneTask']),
+    addTaskClick() {
       if (this.newTaskTitle.trim() == '') return
       const newTask = {
         id: Date.now(),
         title: this.newTaskTitle,
         done: false
       }
-      this.tasks.push(newTask)
+      this.addTask(newTask)
       this.snackbar = true
       this.newTaskTitle = ''
     },
