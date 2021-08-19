@@ -1,79 +1,54 @@
 <template>
   <div class="about pa-6">
-    <h1>About Vuetify Todo</h1>
-    <h3>Sample Text</h3>
-    <p>
-      Lorem ipsum dolor, sit amet consectetur adipisicing elit. Atque sed
-      similique laudantium amet dolores assumenda, aspernatur, vel, neque nulla
-      voluptatem fugiat molestiae omnis. Iusto pariatur reiciendis quia
-      perspiciatis ipsam libero!
-    </p>
-    <p>
-      Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nihil doloremque
-      quibusdam enim praesentium omnis esse amet quis quisquam, rem repudiandae
-      ea aut nam libero quasi itaque labore, iste at officiis.
-    </p>
-    <p>
-      Lorem, ipsum dolor sit amet consectetur adipisicing elit. Libero nobis,
-      adipisci architecto omnis facere magnam iure suscipit in dignissimos at
-      corrupti cupiditate et quos quaerat neque. Aspernatur, laboriosam. Quam,
-      nulla.
-    </p>
-    <p>
-      Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quas nihil qui,
-      nulla non soluta iure eos officiis iusto id minus rerum officia, ratione
-      aliquam fugiat autem eum nostrum sunt ipsa.
-    </p>
-    <p>
-      Lorem ipsum dolor sit, amet consectetur adipisicing elit. Modi libero
-      vitae totam eius itaque quam, quia sed fugiat esse assumenda ullam
-      laboriosam quos veniam optio facilis molestias voluptas iste distinctio.
-    </p>
-    <p>
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex voluptate,
-      natus quo reiciendis cupiditate sit quod harum aut quis earum sequi animi
-      doloribus officia necessitatibus vitae qui nulla expedita ducimus?
-    </p>
-    <p>
-      Lorem, ipsum dolor sit amet consectetur adipisicing elit. Eum voluptatibus
-      veritatis sint. Cupiditate dolorem laboriosam dicta dolorum qui molestiae
-      labore laborum perferendis sint, possimus dolore dignissimos
-      exercitationem explicabo modi sapiente?
-    </p>
-    <p>
-      Lorem ipsum, dolor sit amet consectetur adipisicing elit. Non hic dolores
-      qui iure? Tempora non quas consequuntur ipsa laudantium maiores voluptatem
-      cupiditate inventore quibusdam dolor corporis, cumque, ullam vero dolorem.
-    </p>
-    <p>
-      Lorem ipsum, dolor sit amet consectetur adipisicing elit. Non hic dolores
-      qui iure? Tempora non quas consequuntur ipsa laudantium maiores voluptatem
-      cupiditate inventore quibusdam dolor corporis, cumque, ullam vero dolorem.
-    </p>
-    <p>
-      Lorem ipsum, dolor sit amet consectetur adipisicing elit. Non hic dolores
-      qui iure? Tempora non quas consequuntur ipsa laudantium maiores voluptatem
-      cupiditate inventore quibusdam dolor corporis, cumque, ullam vero dolorem.
-    </p>
-    <p>
-      Lorem ipsum, dolor sit amet consectetur adipisicing elit. Non hic dolores
-      qui iure? Tempora non quas consequuntur ipsa laudantium maiores voluptatem
-      cupiditate inventore quibusdam dolor corporis, cumque, ullam vero dolorem.
-    </p>
-    <p>
-      Lorem ipsum, dolor sit amet consectetur adipisicing elit. Non hic dolores
-      qui iure? Tempora non quas consequuntur ipsa laudantium maiores voluptatem
-      cupiditate inventore quibusdam dolor corporis, cumque, ullam vero dolorem.
-    </p>
-    <p>
-      Lorem ipsum, dolor sit amet consectetur adipisicing elit. Non hic dolores
-      qui iure? Tempora non quas consequuntur ipsa laudantium maiores voluptatem
-      cupiditate inventore quibusdam dolor corporis, cumque, ullam vero dolorem.
-    </p>
-    <p>
-      Lorem ipsum, dolor sit amet consectetur adipisicing elit. Non hic dolores
-      qui iure? Tempora non quas consequuntur ipsa laudantium maiores voluptatem
-      cupiditate inventore quibusdam dolor corporis, cumque, ullam vero dolorem.
-    </p>
+    <h1>Main Feature</h1>
+
+    <ul class="pl-1">
+      <li class="task-list-item">
+        <input type="checkbox" disabled checked /> Add Task
+      </li>
+      <li class="task-list-item">
+        <input type="checkbox" disabled checked /> Done Task
+      </li>
+      <li class="task-list-item">
+        <input type="checkbox" disabled checked /> Edit Task
+      </li>
+      <li class="task-list-item">
+        <input type="checkbox" disabled checked /> Delete Task
+      </li>
+      <li class="task-list-item">
+        <input type="checkbox" disabled checked /> Set Due Date
+      </li>
+      <li class="task-list-item">
+        <input type="checkbox" disabled checked /> Remove Due Date
+      </li>
+      <li class="task-list-item">
+        <input type="checkbox" disabled checked /> Local Database Persistence
+      </li>
+      <li class="task-list-item">
+        <input type="checkbox" disabled /> Remote MongoDB
+      </li>
+      <li class="task-list-item">
+        <input type="checkbox" disabled /> Search Task
+      </li>
+      <li class="task-list-item"><input type="checkbox" disabled /> i18n</li>
+      <li class="task-list-item">
+        <input type="checkbox" disabled /> Task by projects
+      </li>
+      <li class="task-list-item">
+        <input type="checkbox" disabled /> Login Page
+      </li>
+      <li class="task-list-item"><input type="checkbox" disabled /> JWT</li>
+    </ul>
   </div>
 </template>
+
+<style lang="scss" scoped>
+.task-list-item {
+  list-style-type: none;
+  padding-top: 10px;
+}
+
+input {
+  margin-right: 8px;
+}
+</style>

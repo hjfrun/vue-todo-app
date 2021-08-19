@@ -162,8 +162,12 @@ export default {
           title: 'Remove Due Date',
           icon: 'mdi-calendar',
           action() {
-            this.updateTaskDueDate({ id: this.currentTask.id, due_date: '' })
-            this.$store.commit('SHOW_SNACKBAR', 'Due date updated!')
+            if (this.currentTask.due_date && this.currentTask.due_date !== '') {
+              this.updateTaskDueDate({ id: this.currentTask.id, due_date: '' })
+              this.$store.commit('SHOW_SNACKBAR', 'Due date updated!')
+            } else {
+              this.$store.commit('SHOW_SNACKBAR', 'No Due Date!')
+            }
           }
         }
       ],
