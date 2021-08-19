@@ -162,7 +162,7 @@ export default {
           title: 'Remove Due Date',
           icon: 'mdi-calendar',
           action() {
-            this.changeTaskDueDate({ id: this.currentTask.id, due_date: '' })
+            this.updateTaskDueDate({ id: this.currentTask.id, due_date: '' })
             this.$store.commit('SHOW_SNACKBAR', 'Due date updated!')
           }
         }
@@ -179,7 +179,7 @@ export default {
     this.fetchTasks()
   },
   methods: {
-    ...mapActions(['fetchTasks', 'deleteTask', 'doneTask', 'changeTaskTitle', 'changeTaskDueDate']),
+    ...mapActions(['fetchTasks', 'deleteTask', 'doneTask', 'updateTaskTitle', 'updateTaskDueDate']),
 
     actionClick(index, id) {
       this.currentTask = this.tasks.find(task => task.id === id)
@@ -191,12 +191,12 @@ export default {
     },
     editDialogConfirmclick() {
       this.editDialog = false
-      this.changeTaskTitle({ id: this.currentTask.id, newTitle: this.editTaskTitle })
+      this.updateTaskTitle({ id: this.currentTask.id, newTitle: this.editTaskTitle })
       this.editTaskTitle = ''
     },
     dateInput() {
       this.datePickerDialog = false
-      this.changeTaskDueDate({ id: this.currentTask.id, due_date: this.picker })
+      this.updateTaskDueDate({ id: this.currentTask.id, due_date: this.picker })
       this.picker = (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10)
       this.$store.commit('SHOW_SNACKBAR', 'Due date updated!')
     }

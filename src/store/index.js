@@ -75,7 +75,7 @@ export default new Vuex.Store({
       }
     },
 
-    async changeTaskTitle({ commit, state }, { id, newTitle }) {
+    async updateTaskTitle({ commit, state }, { id, newTitle }) {
       commit('UPDATE_TASK_TITLE', { id, newTitle })
       const task = state.tasks.find(task => task.id === id)
       try {
@@ -85,7 +85,7 @@ export default new Vuex.Store({
       }
     },
 
-    async changeTaskDueDate({ commit, state }, { id, due_date }) {
+    async updateTaskDueDate({ commit, state }, { id, due_date }) {
       commit('UPDATE_TASK_DUE_DATE', { id, due_date })
       const task = state.tasks.find(task => task.id === id)
       try {
