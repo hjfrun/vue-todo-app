@@ -51,10 +51,10 @@
     <div v-else class="no-task">
       <no-task></no-task>
     </div>
-    <v-snackbar v-model="snackbar" :timeout="timeout">
-      Task added!
+    <v-snackbar v-model="snackbar.show" :timeout="timeout">
+      {{ snackbar.text }}
       <template v-slot:action="{ attrs }">
-        <v-btn color="white" text v-bind="attrs" @click="snackbar = false">
+        <v-btn color="white" text v-bind="attrs" @click="snackbar.show = false">
           Close
         </v-btn>
       </template>
@@ -132,7 +132,6 @@ export default {
       picker: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
       datePickerDialog: false,
       editTaskTitle: '',
-      snackbar: false,
       timeout: 2000,
       moreActions: [
         {
@@ -172,7 +171,7 @@ export default {
     }
   },
   computed: {
-    ...mapState(['tasks'])
+    ...mapState(['tasks', 'snackbar'])
   },
   created() {
     this.fetchTasks()
@@ -197,6 +196,7 @@ export default {
       this.datePickerDialog = false
       this.changeTaskDueDate({ id: this.currentTask.id, due_date: this.picker })
       this.picker = (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10)
+      this.$store.commit('SHOW_SNACKBAR', 'Due date updated!')
     }
   }
 }

@@ -6,7 +6,11 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    tasks: []
+    tasks: [],
+    snackbar: {
+      show: false,
+      text: ''
+    }
   },
   mutations: {
     FETCH_TASKS(state, tasks) {
@@ -30,6 +34,10 @@ export default new Vuex.Store({
     CHANGE_TASK_DUE_DATE(state, { id, due_date }) {
       const task = state.tasks.find(task => task.id === id)
       task.due_date = due_date
+    },
+    SHOW_SNACKBAR(state, text) {
+      state.snackbar.show = true
+      state.snackbar.text = text
     }
   },
   actions: {

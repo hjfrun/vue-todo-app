@@ -31,7 +31,7 @@ export default {
         done: false
       }
       this.addTask(newTask)
-      this.snackbar = true
+      this.$store.commit('SHOW_SNACKBAR', 'Task Added!')
       this.newTaskTitle = ''
     },
   }
