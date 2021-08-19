@@ -144,6 +144,13 @@ export default {
           }
         },
         {
+          title: 'Delete',
+          icon: 'mdi-delete',
+          action() {
+            this.deleteDialog = true
+          }
+        },
+        {
           title: 'Due Date',
           icon: 'mdi-calendar',
           action() {
@@ -152,17 +159,11 @@ export default {
           }
         },
         {
-          title: 'Delete',
-          icon: 'mdi-delete',
+          title: 'Remove Due Date',
+          icon: 'mdi-calendar',
           action() {
-            this.deleteDialog = true
-          }
-        },
-        {
-          title: 'Sort',
-          icon: 'mdi-reorder-horizontal',
-          action() {
-            console.log('sort')
+            this.changeTaskDueDate({ id: this.currentTask.id, due_date: '' })
+            this.$store.commit('SHOW_SNACKBAR', 'Due date updated!')
           }
         }
       ],
