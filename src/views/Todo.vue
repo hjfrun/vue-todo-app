@@ -1,16 +1,5 @@
 <template>
   <div class="todo">
-    <v-text-field
-      v-model="newTaskTitle"
-      @click:append="addTaskClick"
-      @keyup.enter="addTaskClick"
-      class="pa-3"
-      outlined
-      label="Add Task"
-      append-icon="mdi-plus"
-      hide-details
-      clearable
-    ></v-text-field>
     <v-list class="pt-0" flat v-if="tasks.length">
       <div v-for="task in tasks" :key="task.id">
         <v-list-item
@@ -133,7 +122,6 @@ export default {
   },
   data() {
     return {
-      newTaskTitle: '',
       editTaskTitle: '',
       snackbar: false,
       timeout: 2000,
@@ -180,18 +168,8 @@ export default {
     this.fetchTasks()
   },
   methods: {
-    ...mapActions(['fetchTasks', 'addTask', 'deleteTask', 'doneTask', 'changeTaskTitle']),
+    ...mapActions(['fetchTasks', 'deleteTask', 'doneTask', 'changeTaskTitle']),
 
-    addTaskClick() {
-      if (this.newTaskTitle.trim() == '') return
-      const newTask = {
-        title: this.newTaskTitle,
-        done: false
-      }
-      this.addTask(newTask)
-      this.snackbar = true
-      this.newTaskTitle = ''
-    },
     actionClick(index, id) {
       this.currentTask = this.tasks.find(task => task.id === id)
       this.moreActions[index].action.call(this)

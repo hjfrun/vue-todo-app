@@ -38,14 +38,12 @@
       </template>
 
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
-
-      <v-app-bar-title></v-app-bar-title>
-
       <v-spacer></v-spacer>
 
       <v-btn icon>
         <v-icon>mdi-magnify</v-icon>
       </v-btn>
+      <template v-slot:extension> <add-task></add-task> </template>
     </v-app-bar>
 
     <v-main>
@@ -55,7 +53,13 @@
 </template>
 
 <script>
+
+import AddTask from '@/components/AddTask'
+
 export default {
+  components: {
+    AddTask
+  },
   data() {
     return {
       items: [
@@ -67,3 +71,9 @@ export default {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+::v-deep .v-toolbar__extension {
+  height: 0px !important;
+}
+</style>
