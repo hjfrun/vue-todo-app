@@ -26,6 +26,10 @@ export default new Vuex.Store({
     CHANGE_TASK_TITLE(state, { id, newTitle }) {
       const task = state.tasks.find(task => task.id === id)
       task.title = newTitle
+    },
+    CHANGE_TASK_DUE_DATE(state, { id, due_date }) {
+      const task = state.tasks.find(task => task.id === id)
+      task.due_date = due_date
     }
   },
   actions: {
@@ -70,6 +74,16 @@ export default new Vuex.Store({
         await db.tasks.put(task)
       } catch (err) {
         console.log('change task title failed', err)
+      }
+    },
+
+    async changeTaskDueDate({ commit, state }, { id, due_date }) {
+      commit('CHANGE_TASK_DUE_DATE', { id, due_date })
+      const task = state.tasks.find(task => task.id === id)
+      try {
+        await db.tasks.put(task)
+      } catch (err) {
+        console.log('change due date failed', err)
       }
     }
   },

@@ -17,7 +17,11 @@
                 >{{ task.title }}</v-list-item-title
               >
             </v-list-item-content>
-
+            <v-list-item-content>
+              <v-list-item-title v-show="task.due_date" class="due-date">{{
+                task.due_date
+              }}</v-list-item-title>
+            </v-list-item-content>
             <v-list-item-action>
               <v-menu offset-y>
                 <template v-slot:activator="{ on, attrs }">
@@ -107,6 +111,9 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+    <v-dialog v-model="datePickerDialog" max-width="320">
+      <v-date-picker v-model="picker" @input="dateInput"></v-date-picker>
+    </v-dialog>
   </div>
 </template>
 
@@ -122,6 +129,8 @@ export default {
   },
   data() {
     return {
+      picker: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
+      datePickerDialog: false,
       editTaskTitle: '',
       snackbar: false,
       timeout: 2000,
@@ -138,7 +147,8 @@ export default {
           title: 'Due Date',
           icon: 'mdi-calendar',
           action() {
-            console.log('due date')
+            this.datePickerDialog = true
+            this.picker = this.currentTask.due_date
           }
         },
         {
@@ -157,7 +167,7 @@ export default {
         }
       ],
       deleteDialog: false,
-      currentTask: { title: '', done: false },
+      currentTask: { title: '', done: false, due_date: '' },
       editDialog: false
     }
   },
@@ -168,7 +178,7 @@ export default {
     this.fetchTasks()
   },
   methods: {
-    ...mapActions(['fetchTasks', 'deleteTask', 'doneTask', 'changeTaskTitle']),
+    ...mapActions(['fetchTasks', 'deleteTask', 'doneTask', 'changeTaskTitle', 'changeTaskDueDate']),
 
     actionClick(index, id) {
       this.currentTask = this.tasks.find(task => task.id === id)
@@ -182,6 +192,11 @@ export default {
       this.editDialog = false
       this.changeTaskTitle({ id: this.currentTask.id, newTitle: this.editTaskTitle })
       this.editTaskTitle = ''
+    },
+    dateInput() {
+      this.datePickerDialog = false
+      this.changeTaskDueDate({ id: this.currentTask.id, due_date: this.picker })
+      this.picker = (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10)
     }
   }
 }
@@ -195,5 +210,9 @@ export default {
 
 .text-break-keep-all {
   word-break: keep-all;
+}
+
+.due-date {
+  text-align: right;
 }
 </style>
