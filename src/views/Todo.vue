@@ -1,52 +1,77 @@
 <template>
   <div class="todo">
+    <v-switch
+      v-model="reorderEnable"
+      class="pl-5"
+      label="Re-order the tasks"
+    ></v-switch>
     <v-list class="pt-0" flat v-if="tasks.length">
-      <div v-for="task in tasks" :key="task.id">
-        <v-list-item
-          :class="{ 'blue lighten-5': task.done }"
-          @click="doneTask(task.id)"
-        >
-          <template v-slot:default>
-            <v-list-item-action>
-              <v-checkbox :input-value="task.done" color="primary"></v-checkbox>
-            </v-list-item-action>
+      <draggable
+        :list="tasks"
+        :disabled="!reorderEnable"
+        ghost-class="ghost"
+        @start="dragging = true"
+        @end="dragging = false"
+        handle=".handle"
+      >
+        <div v-for="task in tasks" :key="task.id">
+          <v-list-item
+            :class="{ 'blue lighten-5': task.done }"
+            @click="doneTask(task.id)"
+          >
+            <template v-slot:default>
+              <v-list-item-action>
+                <v-checkbox
+                  :input-value="task.done"
+                  color="primary"
+                ></v-checkbox>
+              </v-list-item-action>
 
-            <v-list-item-content>
-              <v-list-item-title
-                :class="{ 'text-decoration-line-through': task.done }"
-                >{{ task.title }}</v-list-item-title
-              >
-            </v-list-item-content>
-            <v-list-item-content>
-              <v-list-item-title v-show="task.due_date" class="due-date">{{
-                task.due_date
-              }}</v-list-item-title>
-            </v-list-item-content>
-            <v-list-item-action>
-              <v-menu offset-y>
-                <template v-slot:activator="{ on, attrs }">
-                  <v-btn icon dark v-bind="attrs" v-on="on">
-                    <v-icon color="primary lighten-1">mdi-dots-vertical</v-icon>
-                  </v-btn>
-                </template>
-                <v-list>
-                  <v-list-item
-                    v-for="(item, index) in moreActions"
-                    :key="index"
-                    @click="actionClick(index, task.id)"
-                  >
-                    <v-list-item-icon>
-                      <v-icon v-text="item.icon"></v-icon>
-                    </v-list-item-icon>
-                    <v-list-item-title>{{ item.title }}</v-list-item-title>
-                  </v-list-item>
-                </v-list>
-              </v-menu>
-            </v-list-item-action>
-          </template>
-        </v-list-item>
-        <v-divider></v-divider>
-      </div>
+              <v-list-item-content>
+                <v-list-item-title
+                  :class="{ 'text-decoration-line-through': task.done }"
+                  >{{ task.title }}</v-list-item-title
+                >
+              </v-list-item-content>
+              <v-list-item-content>
+                <v-list-item-title v-show="task.due_date" class="due-date">{{
+                  task.due_date
+                }}</v-list-item-title>
+              </v-list-item-content>
+              <v-list-item-action>
+                <v-menu offset-y>
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-btn icon dark v-bind="attrs" v-on="on">
+                      <v-icon color="primary lighten-1"
+                        >mdi-dots-vertical</v-icon
+                      >
+                    </v-btn>
+                    <v-icon
+                      v-show="reorderEnable"
+                      color="primary lighten-1"
+                      class="handle"
+                      >mdi-drag-vertical</v-icon
+                    >
+                  </template>
+                  <v-list>
+                    <v-list-item
+                      v-for="(item, index) in moreActions"
+                      :key="index"
+                      @click="actionClick(index, task.id)"
+                    >
+                      <v-list-item-icon>
+                        <v-icon v-text="item.icon"></v-icon>
+                      </v-list-item-icon>
+                      <v-list-item-title>{{ item.title }}</v-list-item-title>
+                    </v-list-item>
+                  </v-list>
+                </v-menu>
+              </v-list-item-action>
+            </template>
+          </v-list-item>
+          <v-divider></v-divider>
+        </div>
+      </draggable>
     </v-list>
     <div v-else class="no-task">
       <no-task></no-task>
@@ -120,16 +145,21 @@
 
 <script>
 
+import draggable from 'vuedraggable'
 import { mapState, mapActions } from 'vuex'
 import NoTask from '@/components/NoTask.vue'
 
 export default {
   name: 'Home',
   components: {
-    NoTask
+    NoTask,
+    draggable
   },
   data() {
     return {
+      dragging: false,
+      reorderEnable: false,
+      reordered: false,
       picker: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
       datePickerDialog: false,
       editTaskTitle: '',
@@ -157,13 +187,6 @@ export default {
           action() {
             this.deleteDialog = true
           }
-        },
-        {
-          title: 'Sort',
-          icon: 'mdi-reorder-horizontal',
-          action() {
-            console.log('sort')
-          }
         }
       ],
       deleteDialog: false,
@@ -172,7 +195,17 @@ export default {
     }
   },
   computed: {
-    ...mapState(['tasks', 'snackbar'])
+    ...mapState(['snackbar']),
+    tasks: {
+      get() {
+        return this.$store.state.tasks
+      }
+      // set(value) {
+      //   this.reordered = true
+      //   console.log('update vuex tasks...')
+      //   this.$store.commit('UPDATE_TASKS', value)
+      // }
+    }
   },
   created() {
     this.fetchTasks()
@@ -199,6 +232,17 @@ export default {
       this.picker = (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10)
       this.$store.commit('SHOW_SNACKBAR', 'Due date updated!')
     }
+  },
+  watch: {
+    reorderEnable(val) {
+      console.log('reorderEnable val', val)
+      console.log('reorderEnable this.reordered', this.reordered)
+
+      // if (!val && this.reordered) {
+      // save to db
+      this.$store.dispatch('saveTasks', this.tasks)
+      // }
+    }
   }
 }
 </script>
@@ -215,5 +259,10 @@ export default {
 
 .due-date {
   text-align: right;
+}
+
+.ghost {
+  opacity: 0.5;
+  background: #c8ebfb;
 }
 </style>

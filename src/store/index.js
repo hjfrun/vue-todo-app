@@ -38,12 +38,26 @@ export default new Vuex.Store({
     SHOW_SNACKBAR(state, text) {
       state.snackbar.show = true
       state.snackbar.text = text
+    },
+    UPDATE_TASKS(state, tasks) {
+      state.tasks = tasks
+      console.log('UPDATE_TASKS', state.tasks)
     }
   },
   actions: {
     async fetchTasks({ commit }) {
       const tasks = await db.tasks.toArray()
       commit('FETCH_TASKS', tasks.reverse())
+    },
+
+    async saveTasks({ commit }, tasks) {
+      try {
+        await db.tasks.clear()
+        await db.tasks.bulkAdd(tasks)
+        commit('UPDATE_TASKS', tasks)
+      } catch (err) {
+        console.log('saveTasks', err)
+      }
     },
 
     async addTask({ commit }, task) {
