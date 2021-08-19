@@ -56,8 +56,7 @@
       </div>
     </v-list>
     <div v-else class="no-task">
-      <v-icon color="primary lighten-1" x-large>mdi-check</v-icon>
-      <h2 class="primary--text text--lighten-1">No Tasks</h2>
+      <no-task></no-task>
     </div>
     <v-snackbar v-model="snackbar" :timeout="timeout">
       Task added!
@@ -114,7 +113,7 @@
           </v-btn>
 
           <v-btn color="red darken-2" text @click="editDialogConfirmclick">
-            Yes
+            Done
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -125,9 +124,13 @@
 <script>
 
 import { mapState, mapActions } from 'vuex'
+import NoTask from '@/components/NoTask.vue'
 
 export default {
   name: 'Home',
+  components: {
+    NoTask
+  },
   data() {
     return {
       newTaskTitle: '',
@@ -140,7 +143,7 @@ export default {
           icon: 'mdi-pencil',
           action() {
             this.editDialog = true
-            this.editTaskTitle = this.currentTask.title.slice()
+            this.editTaskTitle = this.currentTask.title
           }
         },
         {
@@ -199,7 +202,6 @@ export default {
     },
     editDialogConfirmclick() {
       this.editDialog = false
-      console.log(this.editTaskTitle)
       this.changeTaskTitle({ id: this.currentTask.id, newTitle: this.editTaskTitle })
       this.editTaskTitle = ''
     }
@@ -209,8 +211,7 @@ export default {
 
 <style lang="scss" scoped>
 .no-task {
-  width: 100vw;
-  padding-top: 40%;
+  margin-top: 25%;
   text-align: center;
 }
 
