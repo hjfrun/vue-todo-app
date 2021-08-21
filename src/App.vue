@@ -62,9 +62,6 @@ export default {
   components: {
     AddTask
   },
-  created() {
-    console.log(this.$route.name)
-  },
   data() {
     return {
       items: [
