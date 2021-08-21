@@ -43,7 +43,9 @@
       <v-btn icon>
         <v-icon>mdi-magnify</v-icon>
       </v-btn>
-      <template v-slot:extension> <add-task></add-task> </template>
+      <template v-slot:extension>
+        <add-task v-show="$route.name === 'Todo'"></add-task>
+      </template>
     </v-app-bar>
 
     <v-main>
@@ -59,6 +61,9 @@ import AddTask from '@/components/AddTask'
 export default {
   components: {
     AddTask
+  },
+  created() {
+    console.log(this.$route.name)
   },
   data() {
     return {
