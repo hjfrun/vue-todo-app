@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import { db } from './db'
 
 Vue.use(Vuex)
 
@@ -19,21 +18,13 @@ export default new Vuex.Store({
     ADD_TASK(state, task) {
       state.tasks.unshift(task)
     },
-    DELETE_TASK(state, id) {
-      const index = state.tasks.findIndex(task => task.id === id)
+    DELETE_TASK(state, _id) {
+      const index = state.tasks.findIndex(task => task._id === _id)
       state.tasks.splice(index, 1)
     },
-    DONE_TASK(state, id) {
-      const task = state.tasks.find(task => task.id === id)
-      task.done = !task.done
-    },
-    UPDATE_TASK_TITLE(state, { id, newTitle }) {
-      const task = state.tasks.find(task => task.id === id)
-      task.title = newTitle
-    },
-    UPDATE_TASK_DUE_DATE(state, { id, due_date }) {
-      const task = state.tasks.find(task => task.id === id)
-      task.due_date = due_date
+    UPDATE_TASK(state, { _id, updates }) {
+      const task = state.tasks.find(task => task._id === _id)
+      Object.assign(task, updates)
     },
     SHOW_SNACKBAR(state, text) {
       state.snackbar.show = true
@@ -42,56 +33,38 @@ export default new Vuex.Store({
   },
   actions: {
     async fetchTasks({ commit }) {
-      const tasks = await db.tasks.toArray()
+      const { data: tasks } = await Vue.prototype.$http.get('/todo')
       commit('FETCH_TASKS', tasks.reverse())
     },
 
     async addTask({ commit }, task) {
       try {
-        const id = await db.tasks.add(task)
-        commit('ADD_TASK', task)
-        console.log('add task', id)
+        const { data: _task } = await Vue.prototype.$http.post('/todo', task)
+        commit('ADD_TASK', _task)
+        commit('SHOW_SNACKBAR', 'Task Added!')
       } catch (err) {
         console.log('add task failed')
       }
     },
 
-    async deleteTask({ commit }, id) {
+    async deleteTask({ commit }, _id) {
       try {
-        await db.tasks.delete(id)
-        commit('DELETE_TASK', id)
+        await Vue.prototype.$http.delete(`/todo/${_id}`)
+        commit('DELETE_TASK', _id)
+        commit('SHOW_SNACKBAR', 'Task Deleted!')
       } catch (err) {
         console.log('err while delete the task', err)
       }
     },
 
-    async doneTask({ commit, state }, id) {
-      commit('DONE_TASK', id)
-      const task = state.tasks.find(task => task.id === id)
+    // update the task, including done / undone / edit name
+    async updateTask({ commit }, { _id, updates }) {
       try {
-        await db.tasks.put(task)
+        await Vue.prototype.$http.patch(`/todo/${_id}`, updates)
+        commit('UPDATE_TASK', { _id, updates })
+        commit('SHOW_SNACKBAR', 'Task Updated!')
       } catch (err) {
-        console.log('done task failed', err)
-      }
-    },
-
-    async updateTaskTitle({ commit, state }, { id, newTitle }) {
-      commit('UPDATE_TASK_TITLE', { id, newTitle })
-      const task = state.tasks.find(task => task.id === id)
-      try {
-        await db.tasks.put(task)
-      } catch (err) {
-        console.log('change task title failed', err)
-      }
-    },
-
-    async updateTaskDueDate({ commit, state }, { id, due_date }) {
-      commit('UPDATE_TASK_DUE_DATE', { id, due_date })
-      const task = state.tasks.find(task => task.id === id)
-      try {
-        await db.tasks.put(task)
-      } catch (err) {
-        console.log('change due date failed', err)
+        console.log('updateTask error: ', err)
       }
     }
   },

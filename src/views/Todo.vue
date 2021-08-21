@@ -1,10 +1,10 @@
 <template>
   <div class="todo">
     <v-list class="pt-0" flat v-if="tasks.length">
-      <div v-for="task in tasks" :key="task.id">
+      <div v-for="task in tasks" :key="task._id">
         <v-list-item
           :class="{ 'blue lighten-5': task.done }"
-          @click="doneTask(task.id)"
+          @click="updateTask({ _id: task._id, updates: { done: !task.done } })"
         >
           <template v-slot:default>
             <v-list-item-action>
@@ -14,7 +14,7 @@
             <v-list-item-content>
               <v-list-item-title
                 :class="{ 'text-decoration-line-through': task.done }"
-                >{{ task.title }}</v-list-item-title
+                >{{ task.name }}</v-list-item-title
               >
             </v-list-item-content>
             <v-list-item-content>
@@ -33,7 +33,7 @@
                   <v-list-item
                     v-for="(item, index) in moreActions"
                     :key="index"
-                    @click="actionClick(index, task.id)"
+                    @click="actionClick(index, task._id)"
                   >
                     <v-list-item-icon>
                       <v-icon v-text="item.icon"></v-icon>
@@ -67,7 +67,7 @@
         </v-card-title>
 
         <v-card-text class="text-break-keep-all">
-          {{ currentTask.title }}</v-card-text
+          {{ currentTask.name }}</v-card-text
         >
 
         <v-card-actions>
@@ -140,7 +140,7 @@ export default {
           icon: 'mdi-pencil',
           action() {
             this.editDialog = true
-            this.editTaskTitle = this.currentTask.title
+            this.editTaskTitle = this.currentTask.name
           }
         },
         {
@@ -163,8 +163,7 @@ export default {
           icon: 'mdi-calendar',
           action() {
             if (this.currentTask.due_date && this.currentTask.due_date !== '') {
-              this.updateTaskDueDate({ id: this.currentTask.id, due_date: '' })
-              this.$store.commit('SHOW_SNACKBAR', 'Due date updated!')
+              this.updateTask({ _id: this.currentTask._id, updates: { due_date: '' } })
             } else {
               this.$store.commit('SHOW_SNACKBAR', 'No Due Date!')
             }
@@ -172,35 +171,35 @@ export default {
         }
       ],
       deleteDialog: false,
-      currentTask: { title: '', done: false, due_date: '' },
+      currentTask: { _id: '', title: '', done: false, due_date: '' },
       editDialog: false
     }
   },
   computed: {
     ...mapState(['tasks', 'snackbar'])
   },
-  created() {
+  async created() {
     this.fetchTasks()
   },
   methods: {
-    ...mapActions(['fetchTasks', 'deleteTask', 'doneTask', 'updateTaskTitle', 'updateTaskDueDate']),
+    ...mapActions(['fetchTasks', 'deleteTask', 'updateTask']),
 
-    actionClick(index, id) {
-      this.currentTask = this.tasks.find(task => task.id === id)
+    actionClick(index, _id) {
+      this.currentTask = this.tasks.find(task => task._id === _id)
       this.moreActions[index].action.call(this)
     },
     deleteDialogConfirmclick() {
       this.deleteDialog = false
-      this.deleteTask(this.currentTask.id)
+      this.deleteTask(this.currentTask._id)
     },
     editDialogConfirmclick() {
       this.editDialog = false
-      this.updateTaskTitle({ id: this.currentTask.id, newTitle: this.editTaskTitle })
+      this.updateTask({ _id: this.currentTask._id, updates: { name: this.editTaskTitle } })
       this.editTaskTitle = ''
     },
     dateInput() {
       this.datePickerDialog = false
-      this.updateTaskDueDate({ id: this.currentTask.id, due_date: this.picker })
+      this.updateTask({ _id: this.currentTask._id, updates: { due_date: this.picker } })
       this.picker = (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10)
       this.$store.commit('SHOW_SNACKBAR', 'Due date updated!')
     }

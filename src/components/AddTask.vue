@@ -1,6 +1,6 @@
 <template>
   <v-text-field
-    v-model="newTaskTitle"
+    v-model="newTaskName"
     @click:append="addTaskClick"
     @keyup.enter="addTaskClick"
     outlined
@@ -17,7 +17,7 @@ export default {
   name: 'AddTask',
   data() {
     return {
-      newTaskTitle: ''
+      newTaskName: ''
     }
   },
 
@@ -25,14 +25,14 @@ export default {
     ...mapActions(['addTask']),
 
     addTaskClick() {
-      if (this.newTaskTitle.trim() == '') return
+      if (this.newTaskName.trim() == '') return
       const newTask = {
-        title: this.newTaskTitle,
-        done: false
+        name: this.newTaskName,
+        done: false,
+        due_date: ''
       }
       this.addTask(newTask)
-      this.$store.commit('SHOW_SNACKBAR', 'Task Added!')
-      this.newTaskTitle = ''
+      this.newTaskName = ''
     },
   }
 }
