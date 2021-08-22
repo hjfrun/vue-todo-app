@@ -10,6 +10,12 @@
         ></v-simple-checkbox>
       </template>
       <!-- eslint-disable-next-line -->
+      <template v-slot:item.name="{ item }">
+        <span :class="item.done ? 'text-decoration-line-through' : ''">
+          {{ item.name }}
+        </span>
+      </template>
+      <!-- eslint-disable-next-line -->
       <template v-slot:item.actions="{ item }">
         <v-icon class="mr-2" @click="editClick(item)"> mdi-pencil </v-icon>
         <v-icon @click="deleteClick(item)"> mdi-delete </v-icon>
@@ -136,6 +142,9 @@ export default {
   },
   methods: {
     ...mapActions(['fetchTasks', 'deleteTask', 'updateTask']),
+    row_classes(task) {
+      return task.done ? 'text-decoration-line-through' : ''
+    },
     deleteClick(task) {
       Object.assign(this.currentTask, task)
       this.deleteDialog = true
