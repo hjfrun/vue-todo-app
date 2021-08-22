@@ -44,7 +44,7 @@
         <v-icon>mdi-magnify</v-icon>
       </v-btn>
       <template v-slot:extension>
-        <add-task v-show="$route.name === 'Todo'"></add-task>
+        <add-task v-show="$route.name === 'TaskTable'"></add-task>
       </template>
     </v-app-bar>
 

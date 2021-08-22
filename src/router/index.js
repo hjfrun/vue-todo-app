@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-// import Todo from '../views/Todo.vue'
 import TaskTable from '../views/TaskTable.vue'
 
 Vue.use(VueRouter)
@@ -8,7 +7,7 @@ Vue.use(VueRouter)
 const routes = [
   {
     path: '/',
-    name: 'Todo',
+    name: 'TaskTable',
     component: TaskTable
   },
   {

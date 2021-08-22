@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-data-table :headers="headers" :items="tasks" class="elevation-1">
+    <v-data-table :headers="headers" :items="tasks" class="elevation-1 pa-6">
       <!-- eslint-disable-next-line -->
       <template v-slot:item.done="{ item }">
         <v-simple-checkbox
@@ -11,10 +11,8 @@
       </template>
       <!-- eslint-disable-next-line -->
       <template v-slot:item.actions="{ item }">
-        <v-icon small class="mr-2" @click="editClick(item)">
-          mdi-pencil
-        </v-icon>
-        <v-icon small @click="deleteClick(item)"> mdi-delete </v-icon>
+        <v-icon class="mr-2" @click="editClick(item)"> mdi-pencil </v-icon>
+        <v-icon @click="deleteClick(item)"> mdi-delete </v-icon>
       </template>
       <template v-slot:no-data>
         <no-task></no-task>
@@ -118,10 +116,10 @@ export default {
   data() {
     return {
       headers: [
-        { text: 'Status', value: 'done' },
+        { text: 'Status', value: 'done', align: 'center', width: '90px' },
         { text: 'Name', value: 'name' },
-        { text: 'Due Date', value: 'due_date' },
-        { text: 'Actions', value: 'actions' }
+        { text: 'Due Date', value: 'due_date', width: '150px' },
+        { text: 'Actions', value: 'actions', width: '100px', sortable: false, filterable: false }
       ],
       deleteDialog: false,
       editDialog: false,
