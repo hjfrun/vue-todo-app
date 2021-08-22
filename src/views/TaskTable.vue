@@ -181,7 +181,9 @@ export default {
     // perform the real updates
     editDialogConfirmclick() {
       this.editDialog = false
-      this.updateTask({ _id: this.currentTask._id, updates: this.dialogUpdates })
+      if (this.dialogUpdates.name !== this.currentTask.name || this.dialogUpdates.due_date !== this.currentTask.due_date) {
+        this.updateTask({ _id: this.currentTask._id, updates: this.dialogUpdates })
+      }
       this.dialogUpdates = { name: '', due_date: '' }
     }
   }
