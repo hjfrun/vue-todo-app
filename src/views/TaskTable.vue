@@ -75,7 +75,9 @@
             label="Due Date"
             v-model="dialogUpdates.due_date"
             readonly
-            @click="dueDateClick"
+            @click="datePickerDialog = true"
+            append-icon="mdi-close"
+            @click:append="dialogUpdates.due_date = ''"
           >
           </v-text-field>
         </v-card-text>
@@ -87,7 +89,7 @@
             Cancel
           </v-btn>
 
-          <v-btn color="red darken-2" text @click="editDialogConfirmclick">
+          <v-btn color="orange darken-2" text @click="editDialogConfirmclick">
             Done
           </v-btn>
         </v-card-actions>
@@ -97,9 +99,9 @@
     <!-- date picker dialog -->
     <v-dialog v-model="datePickerDialog" max-width="320">
       <v-date-picker
-        v-if="datePickerDialog"
         v-model="dialogUpdates.due_date"
-        @input="dateInput"
+        show-adjacent-months
+        @input="datePickerDialog = false"
       ></v-date-picker>
     </v-dialog>
   </div>
@@ -155,12 +157,6 @@ export default {
       this.editDialog = false
       this.updateTask({ _id: this.currentTask._id, updates: this.dialogUpdates })
       this.dialogUpdates = { name: '', due_date: '' }
-    },
-    dateInput() {
-      this.datePickerDialog = false
-    },
-    dueDateClick() {
-      this.datePickerDialog = true
     }
   }
 }
