@@ -7,6 +7,7 @@ export default new Vuex.Store({
   state: {
     tasks: [],
     loading: false,
+    updating: false,
     snackbar: {
       show: false,
       text: ''
@@ -15,6 +16,9 @@ export default new Vuex.Store({
   mutations: {
     UPDATE_LOADING(state, loading) {
       state.loading = loading
+    },
+    UPDATE_UPDATING(state, updating) {
+      state.updating = updating
     },
     FETCH_TASKS(state, tasks) {
       state.tasks = tasks
@@ -45,20 +49,26 @@ export default new Vuex.Store({
 
     async addTask({ commit }, task) {
       try {
+        commit('UPDATE_UPDATING', true)
         const { data: _task } = await Vue.prototype.$http.post('/todo', task)
         commit('ADD_TASK', _task)
+        commit('UPDATE_UPDATING', false)
         commit('SHOW_SNACKBAR', 'Task Added!')
       } catch (err) {
+        commit('UPDATE_UPDATING', false)
         console.log('add task failed')
       }
     },
 
     async deleteTask({ commit }, _id) {
       try {
+        commit('UPDATE_UPDATING', true)
         await Vue.prototype.$http.delete(`/todo/${_id}`)
         commit('DELETE_TASK', _id)
+        commit('UPDATE_UPDATING', false)
         commit('SHOW_SNACKBAR', 'Task Deleted!')
       } catch (err) {
+        commit('UPDATE_UPDATING', false)
         console.log('err while delete the task', err)
       }
     },
@@ -66,10 +76,13 @@ export default new Vuex.Store({
     // update the task, including done / undone / edit name
     async updateTask({ commit }, { _id, updates }) {
       try {
+        commit('UPDATE_UPDATING', true)
         await Vue.prototype.$http.patch(`/todo/${_id}`, updates)
         commit('UPDATE_TASK', { _id, updates })
+        commit('UPDATE_UPDATING', false)
         commit('SHOW_SNACKBAR', 'Task Updated!')
       } catch (err) {
+        commit('UPDATE_UPDATING', false)
         console.log('updateTask error: ', err)
       }
     }

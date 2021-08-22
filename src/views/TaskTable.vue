@@ -114,6 +114,19 @@
         @input="datePickerDialog = false"
       ></v-date-picker>
     </v-dialog>
+    <!-- updating animation dialog -->
+    <v-dialog v-model="updating" hide-overlay persistent width="320">
+      <v-card color="secondary" dark>
+        <v-card-text>
+          Updating, please stand by...
+          <v-progress-linear
+            indeterminate
+            color="white"
+            class="mb-0"
+          ></v-progress-linear>
+        </v-card-text>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
@@ -141,7 +154,7 @@ export default {
     }
   },
   computed: {
-    ...mapState(['loading', 'tasks', 'snackbar'])
+    ...mapState(['loading', 'updating', 'tasks', 'snackbar'])
   },
   async created() {
     this.fetchTasks()
