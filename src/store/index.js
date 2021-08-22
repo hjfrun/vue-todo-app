@@ -6,12 +6,16 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     tasks: [],
+    loading: false,
     snackbar: {
       show: false,
       text: ''
     }
   },
   mutations: {
+    UPDATE_LOADING(state, loading) {
+      state.loading = loading
+    },
     FETCH_TASKS(state, tasks) {
       state.tasks = tasks
     },
@@ -33,8 +37,10 @@ export default new Vuex.Store({
   },
   actions: {
     async fetchTasks({ commit }) {
+      commit('UPDATE_LOADING', true)
       const { data: tasks } = await Vue.prototype.$http.get('/todo')
       commit('FETCH_TASKS', tasks.reverse())
+      commit('UPDATE_LOADING', false)
     },
 
     async addTask({ commit }, task) {

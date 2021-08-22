@@ -1,6 +1,12 @@
 <template>
   <div>
-    <v-data-table :headers="headers" :items="tasks" class="elevation-1 pa-6">
+    <v-data-table
+      :headers="headers"
+      :items="tasks"
+      class="elevation-1 pa-6"
+      :loading="loading"
+      loading-text="Loading... Please wait"
+    >
       <!-- eslint-disable-next-line -->
       <template v-slot:item.done="{ item }">
         <v-simple-checkbox
@@ -135,7 +141,7 @@ export default {
     }
   },
   computed: {
-    ...mapState(['tasks', 'snackbar'])
+    ...mapState(['loading', 'tasks', 'snackbar'])
   },
   async created() {
     this.fetchTasks()
