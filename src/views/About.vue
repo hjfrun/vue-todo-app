@@ -25,19 +25,34 @@
         <input type="checkbox" disabled checked /> Local Database Persistence
       </li>
       <li class="task-list-item">
-        <input type="checkbox" disabled /> Remote MongoDB
+        <input type="checkbox" disabled checked /> Remote MongoDB
       </li>
       <li class="task-list-item">
         <input type="checkbox" disabled /> Search Task
       </li>
       <li class="task-list-item"><input type="checkbox" disabled /> i18n</li>
       <li class="task-list-item">
-        <input type="checkbox" disabled /> Task by projects
+        <input type="checkbox" disabled /> Task by Projects
+      </li>
+      <li class="task-list-item">
+        <input type="checkbox" disabled /> Task Priority
       </li>
       <li class="task-list-item">
         <input type="checkbox" disabled /> Login Page
       </li>
-      <li class="task-list-item"><input type="checkbox" disabled /> JWT</li>
+      <li class="task-list-item">
+        <input type="checkbox" disabled /> Register Page
+      </li>
+      <li class="task-list-item">
+        <input type="checkbox" disabled /> JWT Security Mechanism
+      </li>
+      <li class="task-list-item">
+        <input type="checkbox" disabled /> Cookies Support
+      </li>
+
+      <li class="task-list-item">
+        <input type="checkbox" disabled /> Multiple User Support
+      </li>
     </ul>
   </div>
 </template>
