@@ -29,7 +29,7 @@
             :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
             @click:append="showPassword = !showPassword"
             :rules="passwordRules"
-            @keydown="keydownClick"
+            @keyup.enter="login"
             required
           />
         </v-card-text>
@@ -90,11 +90,6 @@ export default {
         const { message } = err.response.data
         this.errorMessage = message
         this.alert = true
-      }
-    },
-    keydownClick(key) {
-      if (key.key === 'Enter') {
-        this.login()
       }
     }
   }
