@@ -28,7 +28,7 @@
       <v-toolbar-title>Todo</v-toolbar-title>
       <v-spacer></v-spacer>
 
-      <v-btn icon>
+      <v-btn icon @click="$store.commit('SWITCH_SEARCH_MODEL')">
         <v-icon>mdi-magnify</v-icon>
       </v-btn>
     </v-app-bar>

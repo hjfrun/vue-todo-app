@@ -1,11 +1,23 @@
 <template>
   <div>
-    <add-task class="pb-5"></add-task>
+    <v-text-field
+      v-if="searchModel"
+      class="pb-5"
+      v-model="search"
+      label="Search"
+      append-icon="mdi-magnify"
+      single-line
+      hide-details
+      outlined
+      clearable
+    ></v-text-field>
+    <add-task v-else class="pb-5"></add-task>
     <v-data-table
       :headers="headers"
       :items="tasks"
       class="elevation-1"
       :loading="loading"
+      :search="search"
       loading-text="Loading... Please wait"
       :items-per-page="15"
     >
@@ -136,6 +148,7 @@ export default {
   },
   data() {
     return {
+      search: '',
       headers: [
         { text: 'Status', value: 'done', align: 'center', width: '90px' },
         { text: 'Name', value: 'name' },
@@ -150,7 +163,7 @@ export default {
     }
   },
   computed: {
-    ...mapState(['loading', 'updating', 'tasks', 'snackbar'])
+    ...mapState(['loading', 'updating', 'tasks', 'snackbar', 'searchModel'])
   },
   async created() {
     this.fetchTasks()

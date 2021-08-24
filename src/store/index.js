@@ -11,9 +11,13 @@ export default new Vuex.Store({
     snackbar: {
       show: false,
       text: ''
-    }
+    },
+    searchModel: false
   },
   mutations: {
+    SWITCH_SEARCH_MODEL(state) {
+      state.searchModel = !state.searchModel
+    },
     UPDATE_LOADING(state, loading) {
       state.loading = loading
     },
