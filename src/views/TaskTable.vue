@@ -3,9 +3,10 @@
     <v-data-table
       :headers="headers"
       :items="tasks"
-      class="elevation-1 pa-6"
+      class="elevation-1"
       :loading="loading"
       loading-text="Loading... Please wait"
+      items-per-page="15"
     >
       <!-- eslint-disable-next-line -->
       <template v-slot:item.done="{ item }">
