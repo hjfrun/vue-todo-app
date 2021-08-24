@@ -28,6 +28,12 @@
         <input type="checkbox" disabled checked /> Remote MongoDB
       </li>
       <li class="task-list-item">
+        <input type="checkbox" disabled checked /> Login Page
+      </li>
+      <li class="task-list-item">
+        <input type="checkbox" disabled checked /> JWT Security Mechanism
+      </li>
+      <li class="task-list-item">
         <input type="checkbox" disabled /> Search Task
       </li>
       <li class="task-list-item"><input type="checkbox" disabled /> i18n</li>
@@ -38,18 +44,11 @@
         <input type="checkbox" disabled /> Task Priority
       </li>
       <li class="task-list-item">
-        <input type="checkbox" disabled /> Login Page
-      </li>
-      <li class="task-list-item">
         <input type="checkbox" disabled /> Register Page
-      </li>
-      <li class="task-list-item">
-        <input type="checkbox" disabled /> JWT Security Mechanism
       </li>
       <li class="task-list-item">
         <input type="checkbox" disabled /> Cookies Support
       </li>
-
       <li class="task-list-item">
         <input type="checkbox" disabled /> Multiple User Support
       </li>

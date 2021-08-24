@@ -23,29 +23,14 @@
       </v-list>
     </v-navigation-drawer>
 
-    <v-app-bar
-      app
-      color="primary"
-      dark
-      src="https://picsum.photos/1920/1080?random"
-      prominent
-    >
-      <template v-slot:img="{ props }">
-        <v-img
-          v-bind="props"
-          gradient="to top right, rgba(19,84,122,.5), rgba(128,208,199,.8)"
-        ></v-img>
-      </template>
-
+    <v-app-bar app>
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
+      <v-toolbar-title>Todo</v-toolbar-title>
       <v-spacer></v-spacer>
 
       <v-btn icon>
         <v-icon>mdi-magnify</v-icon>
       </v-btn>
-      <template v-slot:extension>
-        <add-task v-show="$route.name === 'TaskTable'"></add-task>
-      </template>
     </v-app-bar>
 
     <v-container>
@@ -56,13 +41,8 @@
 
 <script>
 
-import AddTask from '@/components/AddTask'
-
 export default {
   name: 'Main',
-  components: {
-    AddTask
-  },
   data() {
     return {
       items: [
@@ -76,7 +56,4 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-::v-deep .v-toolbar__extension {
-  height: 0px !important;
-}
 </style>

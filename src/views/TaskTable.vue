@@ -1,5 +1,6 @@
 <template>
   <div>
+    <add-task class="pb-5"></add-task>
     <v-data-table
       :headers="headers"
       :items="tasks"
@@ -125,9 +126,12 @@
 <script>
 import { mapActions, mapState } from 'vuex'
 import NoTask from '@/components/NoTask.vue'
+import AddTask from '@/components/AddTask'
+
 
 export default {
   components: {
+    AddTask,
     NoTask
   },
   data() {
