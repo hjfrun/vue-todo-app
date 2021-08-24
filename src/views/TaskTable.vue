@@ -6,7 +6,7 @@
       class="elevation-1"
       :loading="loading"
       loading-text="Loading... Please wait"
-      items-per-page="15"
+      :items-per-page="15"
     >
       <!-- eslint-disable-next-line -->
       <template v-slot:item.done="{ item }">
