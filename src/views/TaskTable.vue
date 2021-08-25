@@ -170,9 +170,6 @@ export default {
   },
   methods: {
     ...mapActions(['fetchTasks', 'deleteTask', 'updateTask']),
-    row_classes(task) {
-      return task.done ? 'text-decoration-line-through' : ''
-    },
     deleteClick(task) {
       Object.assign(this.currentTask, task)
       this.deleteDialog = true

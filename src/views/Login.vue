@@ -87,8 +87,9 @@ export default {
         sessionStorage.token = token
         this.$router.push('/')
       } catch (err) {
-        const { message } = err.response.data
-        this.errorMessage = message
+        console.log(err.response.data)
+        const { msg } = err.response.data
+        this.errorMessage = msg
         this.alert = true
       }
     }
