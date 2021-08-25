@@ -34,11 +34,14 @@
         <input type="checkbox" disabled checked /> JWT Security Mechanism
       </li>
       <li class="task-list-item">
-        <input type="checkbox" disabled /> Search Task
+        <input type="checkbox" disabled checked /> Search Task
+      </li>
+      <li class="task-list-item">
+        <input type="checkbox" disabled checked /> Tasks by User
       </li>
       <li class="task-list-item"><input type="checkbox" disabled /> i18n</li>
       <li class="task-list-item">
-        <input type="checkbox" disabled /> Task by Projects
+        <input type="checkbox" disabled /> Task by Group
       </li>
       <li class="task-list-item">
         <input type="checkbox" disabled /> Task Priority
