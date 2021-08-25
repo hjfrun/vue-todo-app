@@ -167,9 +167,10 @@ export default {
   },
   async created() {
     this.fetchTasks()
+    this.fetchGroups()
   },
   methods: {
-    ...mapActions(['fetchTasks', 'deleteTask', 'updateTask']),
+    ...mapActions(['fetchTasks', 'deleteTask', 'updateTask', 'fetchGroups']),
     deleteClick(task) {
       Object.assign(this.currentTask, task)
       this.deleteDialog = true

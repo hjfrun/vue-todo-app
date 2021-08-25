@@ -12,9 +12,21 @@ export default new Vuex.Store({
       show: false,
       text: ''
     },
-    searchModel: false
+    searchModel: false,
+    groups: []
   },
   mutations: {
+    // Groups
+    FETCH_GROUPS(state, groups) {
+      state.groups = groups
+    },
+    ADD_GROUP(state, group) {
+      state.groups.unshift(group)
+    },
+    DELETE_GROUP(state, _id) {
+      const index = state.groups.findIndex(group => group._id === _id)
+      state.groups.splice(index, 1)
+    },
     SWITCH_SEARCH_MODEL(state) {
       state.searchModel = !state.searchModel
     },
@@ -24,6 +36,7 @@ export default new Vuex.Store({
     UPDATE_UPDATING(state, updating) {
       state.updating = updating
     },
+    // Tasks
     FETCH_TASKS(state, tasks) {
       state.tasks = tasks
     },
@@ -44,6 +57,14 @@ export default new Vuex.Store({
     }
   },
   actions: {
+    // Groups
+    async fetchGroups({ commit }) {
+      commit('UPDATE_LOADING', true)
+      const { data: groups } = await Vue.prototype.$http.get('/group')
+      commit('FETCH_GROUPS', groups.reverse())
+      commit('UPDATE_LOADING', false)
+    },
+    // Tasks
     async fetchTasks({ commit }) {
       commit('UPDATE_LOADING', true)
       const { data: tasks } = await Vue.prototype.$http.get('/todo')
