@@ -21,6 +21,14 @@
           </v-list-item-content>
         </v-list-item>
       </v-list>
+      <template v-slot:append>
+        <div class="pa-2">
+          <v-btn block @click="logout">
+            Logout
+            <v-icon>mdi-logout</v-icon>
+          </v-btn>
+        </div>
+      </template>
     </v-navigation-drawer>
 
     <v-app-bar app>
@@ -50,6 +58,12 @@ export default {
         { title: 'About', icon: 'mdi-help-box', to: '/about' }
       ],
       drawer: null
+    }
+  },
+  methods: {
+    logout() {
+      sessionStorage.token = ''
+      this.$router.push('/login')
     }
   }
 }
