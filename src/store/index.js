@@ -74,6 +74,33 @@ export default new Vuex.Store({
       commit('FETCH_GROUPS', groups.reverse())
       commit('UPDATE_LOADING', false)
     },
+
+    async addGroup({ commit }, group) {
+      try {
+        commit('UPDATE_UPDATING', true)
+        const { data: _group } = await Vue.prototype.$http.post('/group', group)
+        commit('ADD_GROUP', _group)
+        commit('UPDATE_UPDATING', false)
+        commit('SHOW_SNACKBAR', 'Group Added!')
+      } catch (err) {
+        commit('UPDATE_UPDATING', false)
+        console.log('add task failed')
+      }
+    },
+
+    async deleteGroup({ commit }, _id) {
+      try {
+        commit('UPDATE_UPDATING', true)
+        await Vue.prototype.$http.delete(`/group/${_id}`)
+        commit('DELETE_GROUP', _id)
+        commit('UPDATE_UPDATING', false)
+        commit('SHOW_SNACKBAR', 'Group Deleted!')
+      } catch (err) {
+        commit('UPDATE_UPDATING', false)
+        console.log('err while delete the task', err)
+      }
+    },
+
     // Tasks
     async fetchTasks({ commit }) {
       commit('UPDATE_LOADING', true)

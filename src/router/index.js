@@ -25,6 +25,11 @@ const routes = [
         component: TaskTable
       },
       {
+        path: '/group',
+        name: 'Group',
+        component: () => import(/* webpackChunkName: "group" */ '../views/Group.vue')
+      },
+      {
         path: '/about',
         name: 'About',
         // route level code-splitting

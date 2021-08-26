@@ -44,10 +44,20 @@
     <v-container>
       <router-view></router-view>
     </v-container>
+
+    <v-snackbar v-model="snackbar.show" timeout="2000">
+      {{ snackbar.text }}
+      <template v-slot:action="{ attrs }">
+        <v-btn color="white" text v-bind="attrs" @click="snackbar.show = false">
+          Close
+        </v-btn>
+      </template>
+    </v-snackbar>
   </v-app>
 </template>
 
 <script>
+import { mapState } from 'vuex'
 
 export default {
   name: 'Main',
@@ -55,10 +65,14 @@ export default {
     return {
       items: [
         { title: 'Todo', icon: 'mdi-format-list-checks', to: '/' },
+        { title: 'Group', icon: 'mdi-tag-multiple', to: '/group' },
         { title: 'About', icon: 'mdi-help-box', to: '/about' }
       ],
       drawer: null
     }
+  },
+  computed: {
+    ...mapState(['snackbar'])
   },
   methods: {
     logout() {
