@@ -15,6 +15,16 @@ export default new Vuex.Store({
     searchModel: false,
     groups: []
   },
+  getters: {
+    groupItems(state) {
+      return state.groups.map(e => {
+        return {
+          text: e.name,
+          value: e._id
+        }
+      })
+    }
+  },
   mutations: {
     // Groups
     FETCH_GROUPS(state, groups) {

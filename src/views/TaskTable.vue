@@ -12,6 +12,14 @@
       clearable
     ></v-text-field>
     <add-task v-else class="pb-5"></add-task>
+    <v-select
+      v-model="groupValue"
+      :items="groupItems"
+      chips
+      label="Groups"
+      multiple
+      outlined
+    ></v-select>
     <v-data-table
       :headers="headers"
       :items="tasks"
@@ -95,6 +103,16 @@
         </v-card-text>
 
         <v-card-text>
+          <v-select
+            class="mt-4"
+            :items="groupItems"
+            v-model="dialogUpdates.group_id"
+            label="Group"
+          >
+          </v-select>
+        </v-card-text>
+
+        <v-card-text>
           <v-text-field
             label="Due Date"
             v-model="dialogUpdates.due_date"
@@ -136,7 +154,7 @@
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex'
+import { mapActions, mapGetters, mapState } from 'vuex'
 import NoTask from '@/components/NoTask.vue'
 import AddTask from '@/components/AddTask'
 
@@ -158,12 +176,14 @@ export default {
       deleteDialog: false,
       editDialog: false,
       datePickerDialog: false,
-      currentTask: { _id: '', name: '', done: false, due_date: '' },
-      dialogUpdates: { name: '', due_date: '' }
+      currentTask: { _id: '', name: '', done: false, due_date: '', group_id: '' },
+      dialogUpdates: { name: '', due_date: '', group_id: '' },
+      groupValue: []
     }
   },
   computed: {
-    ...mapState(['loading', 'updating', 'tasks', 'snackbar', 'searchModel'])
+    ...mapState(['loading', 'updating', 'tasks', 'snackbar', 'searchModel', 'groups']),
+    ...mapGetters(['groupItems'])
   },
   async created() {
     this.fetchTasks()
@@ -184,14 +204,15 @@ export default {
       this.editDialog = true
       this.dialogUpdates.name = task.name
       this.dialogUpdates.due_date = task.due_date
+      this.dialogUpdates.group_id = task.group_id
     },
     // perform the real updates
     editDialogConfirmclick() {
       this.editDialog = false
-      if (this.dialogUpdates.name !== this.currentTask.name || this.dialogUpdates.due_date !== this.currentTask.due_date) {
+      if (this.dialogUpdates.name !== this.currentTask.name || this.dialogUpdates.due_date !== this.currentTask.due_date || this.dialogUpdates.group_id !== this.currentTask.group_id) {
         this.updateTask({ _id: this.currentTask._id, updates: this.dialogUpdates })
       }
-      this.dialogUpdates = { name: '', due_date: '' }
+      this.dialogUpdates = { name: '', due_date: '', group_id: '' }
     }
   }
 }
