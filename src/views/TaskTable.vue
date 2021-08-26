@@ -16,9 +16,8 @@
       v-model="groupValue"
       :items="groupItems"
       chips
-      label="Groups"
+      label="Filter by Groups"
       multiple
-      outlined
     ></v-select>
     <v-data-table
       :headers="headers"
@@ -52,15 +51,6 @@
         <no-task></no-task>
       </template>
     </v-data-table>
-
-    <!-- <v-snackbar v-model="snackbar.show" timeout="2000">
-      {{ snackbar.text }}
-      <template v-slot:action="{ attrs }">
-        <v-btn color="white" text v-bind="attrs" @click="snackbar.show = false">
-          Close
-        </v-btn>
-      </template>
-    </v-snackbar> -->
 
     <!-- Delete Dialog -->
     <v-dialog v-model="deleteDialog" max-width="320">

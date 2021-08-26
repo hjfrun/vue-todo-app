@@ -37,6 +37,10 @@ export default new Vuex.Store({
       const index = state.groups.findIndex(group => group._id === _id)
       state.groups.splice(index, 1)
     },
+    UPDATE_GROUP(state, { _id, updates }) {
+      const group = state.groups.find(group => group._id === _id)
+      Object.assign(group, updates)
+    },
     SWITCH_SEARCH_MODEL(state) {
       state.searchModel = !state.searchModel
     },
@@ -98,6 +102,19 @@ export default new Vuex.Store({
       } catch (err) {
         commit('UPDATE_UPDATING', false)
         console.log('err while delete the task', err)
+      }
+    },
+
+    async updateGroup({ commit }, { _id, updates }) {
+      try {
+        commit('UPDATE_UPDATING', true)
+        await Vue.prototype.$http.patch(`/group/${_id}`, updates)
+        commit('UPDATE_GROUP', { _id, updates })
+        commit('UPDATE_UPDATING', false)
+        commit('SHOW_SNACKBAR', 'Group Updated!')
+      } catch (err) {
+        commit('UPDATE_UPDATING', false)
+        console.log('updateTask error: ', err)
       }
     },
 
