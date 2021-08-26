@@ -22,7 +22,7 @@
     ></v-select>
     <v-data-table
       :headers="headers"
-      :items="tasks"
+      :items="filteredTasks"
       class="elevation-1"
       :loading="loading"
       :search="search"
@@ -68,18 +68,14 @@
         <v-card-title class="text-h5 text-break-keep-all">
           Are you sure you wanna delete this task?
         </v-card-title>
-
         <v-card-text class="text-break-keep-all">
           {{ currentTask.name }}</v-card-text
         >
-
         <v-card-actions>
           <v-spacer></v-spacer>
-
           <v-btn color="primary darken-1" text @click="deleteDialog = false">
             Cancel
           </v-btn>
-
           <v-btn color="red darken-2" text @click="deleteDialogConfirmclick">
             Yes
           </v-btn>
@@ -183,7 +179,10 @@ export default {
   },
   computed: {
     ...mapState(['loading', 'updating', 'tasks', 'snackbar', 'searchModel', 'groups']),
-    ...mapGetters(['groupItems'])
+    ...mapGetters(['groupItems']),
+    filteredTasks() {
+      return this.tasks.filter(e => this.groupValue.includes(e.group_id) || this.groupValue.length === 0)
+    }
   },
   async created() {
     this.fetchTasks()
