@@ -157,6 +157,7 @@ export default {
         { text: 'Status', value: 'done', align: 'center', width: '90px' },
         { text: 'Name', value: 'name' },
         { text: 'Due Date', value: 'due_date', width: '150px' },
+        { text: 'Update Time', value: 'updatedAt', width: '220px' },
         { text: 'Actions', value: 'actions', width: '100px', sortable: false, filterable: false }
       ],
       deleteDialog: false,
