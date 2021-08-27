@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
+import { format } from 'date-fns'
+
 Vue.use(Vuex)
 
 export default new Vuex.Store({
@@ -121,7 +123,13 @@ export default new Vuex.Store({
     // Tasks
     async fetchTasks({ commit }) {
       commit('UPDATE_LOADING', true)
-      const { data: tasks } = await Vue.prototype.$http.get('/todo')
+      let { data: tasks } = await Vue.prototype.$http.get('/todo')
+      tasks = tasks.map(e => {
+        if (Object.prototype.hasOwnProperty.call(e, 'updatedAt')) {
+          e.updatedAt = format(new Date(e.updatedAt), 'yyyy-MM-dd HH:mm:ss')
+        }
+        return e
+      })
       commit('FETCH_TASKS', tasks.reverse())
       commit('UPDATE_LOADING', false)
     },
