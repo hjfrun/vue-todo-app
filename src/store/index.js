@@ -137,7 +137,8 @@ export default new Vuex.Store({
     async addTask({ commit }, task) {
       try {
         commit('UPDATE_UPDATING', true)
-        const { data: _task } = await Vue.prototype.$http.post('/todo', task)
+        let { data: _task } = await Vue.prototype.$http.post('/todo', task)
+        _task.updatedAt = format(new Date(_task.updatedAt), 'yyyy-MM-dd HH:mm:ss')
         commit('ADD_TASK', _task)
         commit('UPDATE_UPDATING', false)
         commit('SHOW_SNACKBAR', 'Task Added!')
