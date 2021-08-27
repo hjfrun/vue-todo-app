@@ -39,9 +39,11 @@
       <li class="task-list-item">
         <input type="checkbox" disabled checked /> Tasks by User
       </li>
-      <li class="task-list-item"><input type="checkbox" disabled /> i18n</li>
       <li class="task-list-item">
-        <input type="checkbox" disabled /> Task by Group
+        <input type="checkbox" disabled checked /> Multiple User Support
+      </li>
+      <li class="task-list-item">
+        <input type="checkbox" disabled checked /> Task by Group
       </li>
       <li class="task-list-item">
         <input type="checkbox" disabled /> Task Priority
@@ -49,11 +51,9 @@
       <li class="task-list-item">
         <input type="checkbox" disabled /> Register Page
       </li>
+      <li class="task-list-item"><input type="checkbox" disabled /> i18n</li>
       <li class="task-list-item">
         <input type="checkbox" disabled /> Cookies Support
-      </li>
-      <li class="task-list-item">
-        <input type="checkbox" disabled /> Multiple User Support
       </li>
     </ul>
   </div>
