@@ -16,6 +16,11 @@ const routes = [
     }
   },
   {
+    path: '/admin',
+    name: 'admin',
+    component: () => import(/* webpackChunkName: "admin" */ '../views/Admin.vue')
+  },
+  {
     path: '/',
     component: Main,
     children: [
