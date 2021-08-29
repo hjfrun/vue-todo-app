@@ -27,6 +27,7 @@
       :search="search"
       loading-text="Loading... Please wait"
       :items-per-page="15"
+      no-data-text="No tasks"
     >
       <!-- eslint-disable-next-line -->
       <template v-slot:item.done="{ item }">
@@ -46,9 +47,6 @@
       <template v-slot:item.actions="{ item }">
         <v-icon class="mr-2" @click="editClick(item)"> mdi-pencil </v-icon>
         <v-icon @click="deleteClick(item)"> mdi-delete </v-icon>
-      </template>
-      <template v-slot:no-data>
-        <no-task></no-task>
       </template>
     </v-data-table>
 
@@ -141,14 +139,12 @@
 
 <script>
 import { mapActions, mapGetters, mapState } from 'vuex'
-import NoTask from '@/components/NoTask.vue'
 import AddTask from '@/components/AddTask'
 
 
 export default {
   components: {
     AddTask,
-    NoTask
   },
   data() {
     return {
