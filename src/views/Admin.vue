@@ -1,99 +1,187 @@
 <template>
-  <v-app>
-    <v-main>
-      <v-alert
-        class="mx-auto"
-        v-model="alert"
-        prominent
-        :type="alertType"
-        max-width="600"
-        border="left"
-        dismissible
-        >{{ alertMessage }}</v-alert
-      >
-      <v-card width="500" class="mx-auto mt-16" elevatino="6">
-        <v-card-title style="justify-content: center"
-          >User Register / Update</v-card-title
+  <div>
+    <h1>User management</h1>
+    <v-btn @click="addDialog = true">Add New User</v-btn>
+    <v-data-table
+      :headers="headers"
+      :items="users"
+      class="elevation-1"
+      :loading="loadingUsers"
+      loading-text="Loading... Please wait"
+      :items-per-page="15"
+    >
+      <!-- eslint-disable-next-line -->
+      <template v-slot:item.actions="{ item }">
+        <v-icon class="mr-2" @click="editClick(item)"> mdi-pencil </v-icon>
+        <v-icon @click="deleteClick(item)"> mdi-delete </v-icon>
+      </template>
+      <template v-slot:no-data>
+        <p>No users...</p>
+      </template>
+    </v-data-table>
+
+    <!-- Delete Dialog -->
+    <v-dialog v-model="deleteDialog" max-width="320">
+      <v-card>
+        <v-card-title class="text-h5 text-break-keep-all">
+          Are you sure you wanna delete this user?
+        </v-card-title>
+        <v-card-text class="text-break-keep-all">
+          {{ currentUser.username }}</v-card-text
         >
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="primary darken-1" text @click="deleteDialog = false">
+            Cancel
+          </v-btn>
+          <v-btn color="red darken-2" text @click="deleteDialogConfirmClick">
+            Yes
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
+    <!-- Add User Dialog -->
+    <v-dialog v-model="addDialog" max-width="320">
+      <v-card>
+        <v-card-title class="text-h5 text-break-keep-all">
+          Add a new user
+        </v-card-title>
+
         <v-card-text>
           <v-text-field
-            label="Username"
-            v-model="user.username"
-            prepend-icon="mdi-account-circle"
-            :rules="nameRules"
-            required
-          />
+            placeholder="User name"
+            v-model="newUser.username"
+          ></v-text-field>
           <v-text-field
-            label="Password"
-            v-model="user.password"
-            :type="showPassword ? 'text' : 'password'"
-            prepend-icon="mdi-lock"
-            :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
-            @click:append="showPassword = !showPassword"
-            :rules="passwordRules"
-            required
-          />
+            placeholder="Password"
+            v-model="newUser.password"
+          ></v-text-field>
         </v-card-text>
 
         <v-card-actions>
-          <v-btn class="mx-auto" large color="success" @click="registerClick"
-            >Register</v-btn
-          >
-          <v-btn class="mx-auto" large color="success" @click="updateClick"
-            >Update Password</v-btn
-          >
+          <v-spacer></v-spacer>
+
+          <v-btn color="primary darken-1" text @click="addDialog = false">
+            Cancel
+          </v-btn>
+
+          <v-btn color="orange darken-2" text @click="addDialogConfirmClick">
+            Done
+          </v-btn>
         </v-card-actions>
       </v-card>
-    </v-main>
-  </v-app>
-</template>
-<script>
+    </v-dialog>
 
+    <!-- Edit Dialog -->
+    <v-dialog v-model="editDialog" max-width="320">
+      <v-card>
+        <v-card-title class="text-h5 text-break-keep-all">
+          Edit the current user
+        </v-card-title>
+
+        <v-card-text>
+          <v-text-field
+            placeholder="User name"
+            v-model="dialogUpdates.username"
+          ></v-text-field>
+          <v-text-field
+            placeholder="Password"
+            v-model="dialogUpdates.password"
+          ></v-text-field>
+        </v-card-text>
+
+        <v-card-actions>
+          <v-spacer></v-spacer>
+
+          <v-btn color="primary darken-1" text @click="editDialog = false">
+            Cancel
+          </v-btn>
+
+          <v-btn color="orange darken-2" text @click="editDialogConfirmClick">
+            Done
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
+    <!-- updating overlay -->
+    <v-overlay :value="updating">
+      <v-progress-circular indeterminate size="64"></v-progress-circular>
+    </v-overlay>
+  </div>
+</template>
+
+<script>
+import { mapState } from 'vuex'
 export default {
-  name: 'Admin',
   data() {
     return {
-      alert: false,
-      user: {},
-      showPassword: false,
-      alertType: 'error',
-      alertMessage: '',
-      nameRules: [
-        v => !!v || 'Username is required'
+      users: [],
+      loadingUsers: false,
+      newUser: {
+        username: '',
+        password: ''
+      },
+      headers: [
+        { text: 'User Name', value: 'username' },
+        { text: 'Actions', value: 'actions', width: '100px', sortable: false, filterable: false }
       ],
-      passwordRules: [
-        v => !!v || 'Password is required'
-      ]
+      addDialog: false,
+      deleteDialog: false,
+      editDialog: false,
+      currentUser: { _id: '', username: '' },
+      dialogUpdates: { username: '', password: '' }
     }
   },
+  created() {
+    this.fetchUsers()
+  },
+  computed: {
+    ...mapState(['updating', 'loading'])
+  },
   methods: {
-    async registerClick() {
-      if (this.user.name === '' || this.user.password === '') {
-        this.alert = true
-        this.alertMessage = 'Please enter the username and password!'
-        return
-      }
-      const { data } = await this.$http.post('/user', this.user)
+    async fetchUsers() {
+      this.loadingUsers = true
+      const { data: users } = await this.$http.get('/user')
+      this.loadingUsers = false
+      this.users = users
+    },
+    async addDialogConfirmClick() {
+      console.log('this.newUser :>> ', this.newUser)
+      const { data } = await this.$http.post('/user', this.newUser)
       if (data.status === 'success') {
-        this.alertType = 'success'
-        this.alertMessage = data.msg
-        this.alert = true
-        this.user = { username: '', password: '' }
+        this.addDialog = false
+        this.fetchUsers()
+        this.newUser = { username: '', password: '' }
+        // popup a message to info the user added successfully!
       }
     },
-    async updateClick() {
-      if (this.user.name === '' || this.user.password === '') {
-        this.alert = true
-        this.alertMessage = 'Please enter the username and password!'
-        return
-      }
-      const { data } = await this.$http.patch('/user', this.user)
+    deleteClick(user) {
+      Object.assign(this.currentUser, user)
+      this.deleteDialog = true
+    },
+    async deleteDialogConfirmClick() {
+      this.deleteDialog = false
+      const { data } = await this.$http.delete(`/user/${this.currentUser._id}`)
       if (data.status === 'success') {
-        this.alertType = 'success'
-        this.alertMessage = data.msg
-        this.alert = true
-        this.user = { username: '', password: '' }
+        this.deleteDialog = false
+        this.fetchUsers()
       }
+    },
+    editClick(user) {
+      Object.assign(this.currentUser, user)
+      this.editDialog = true
+      this.dialogUpdates.username = user.username
+    },
+    async editDialogConfirmClick() {
+      this.editDialog = false
+      const { data } = await this.$http.patch(`/user/${this.currentUser._id}`, this.dialogUpdates)
+      if (data.status === 'success') {
+        this.editDialog = false
+        this.fetchUsers()
+      }
+      this.dialogUpdates = { username: '', password: '' }
     }
   }
 }
