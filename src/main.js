@@ -5,6 +5,7 @@ import store from './store'
 import vuetify from './plugins/vuetify'
 
 import http from './http'
+import './plugins/element.js'
 
 Vue.prototype.$http = http
 

@@ -1,16 +1,6 @@
 <template>
   <v-app>
     <v-main>
-      <v-alert
-        class="mx-auto"
-        v-model="alert"
-        prominent
-        type="error"
-        max-width="600"
-        border="left"
-        dismissible
-        >{{ errorMessage }}</v-alert
-      >
       <v-card width="500" class="login-card" elevatino="6">
         <v-card-title style="justify-content: center">ToDo Login</v-card-title>
         <v-card-text>
@@ -49,10 +39,8 @@ export default {
   name: 'Login',
   data() {
     return {
-      alert: false,
       user: {},
       showPassword: false,
-      errorMessage: '',
       nameRules: [
         v => !!v || 'Username is required'
       ],
@@ -63,22 +51,31 @@ export default {
   },
   created() {
     if (this.$route.params.message) {
-      this.errorMessage = this.$route.params.message
-      this.alert = true
+      this.$message({
+        showClose: true,
+        message: this.$route.params.message,
+        type: 'error'
+      })
     }
   },
   methods: {
     async login() {
       if (Object.prototype.hasOwnProperty.call(this.user, 'username') === false || this.user.username === '') {
-        this.errorMessage = 'Please enter the username!'
-        this.alert = true
-        return
+        return this.$message({
+          showClose: true,
+          message: 'Please enter the username!',
+          center: true,
+          type: 'error'
+        })
       }
 
       if (Object.prototype.hasOwnProperty.call(this.user, 'password') === false || this.user.password === '') {
-        this.errorMessage = 'Please enter the password!'
-        this.alert = true
-        return
+        return this.$message({
+          showClose: true,
+          message: 'Please enter the username!',
+          center: true,
+          type: 'error'
+        })
       }
 
       try {
@@ -86,11 +83,20 @@ export default {
         const { token } = res.data
         sessionStorage.token = token
         this.$router.push('/')
+        this.$message({
+          showClose: true,
+          message: 'Login Successfully!',
+          center: true,
+          type: 'success'
+        })
       } catch (err) {
-        console.log(err.response.data)
         const { msg } = err.response.data
-        this.errorMessage = msg
-        this.alert = true
+        this.$message({
+          showClose: true,
+          message: msg,
+          center: true,
+          type: 'error'
+        })
       }
     }
   }
