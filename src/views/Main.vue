@@ -44,15 +44,6 @@
     <v-container>
       <router-view></router-view>
     </v-container>
-
-    <!-- <v-snackbar v-model="snackbar.show" timeout="2000">
-      {{ snackbar.text }}
-      <template v-slot:action="{ attrs }">
-        <v-btn color="white" text v-bind="attrs" @click="snackbar.show = false">
-          Close
-        </v-btn>
-      </template>
-    </v-snackbar> -->
   </v-app>
 </template>
 
