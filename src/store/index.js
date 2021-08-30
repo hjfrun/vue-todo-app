@@ -8,7 +8,6 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    loading: false,
     updating: false,
     snackbar: {
       show: false,
@@ -20,9 +19,6 @@ export default new Vuex.Store({
   mutations: {
     SWITCH_SEARCH_MODEL(state) {
       state.searchModel = !state.searchModel
-    },
-    UPDATE_LOADING(state, loading) {
-      state.loading = loading
     },
     UPDATE_UPDATING(state, updating) {
       state.updating = updating

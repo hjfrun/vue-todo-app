@@ -23,7 +23,7 @@
       :headers="headers"
       :items="filteredTasks"
       class="elevation-1"
-      :loading="loading"
+      :loading="dataLoading"
       :search="search"
       loading-text="Loading... Please wait"
       :items-per-page="15"
@@ -131,9 +131,9 @@
       ></v-date-picker>
     </v-dialog>
     <!-- updating overlay -->
-    <v-overlay :value="updating">
+    <!-- <v-overlay :value="updating">
       <v-progress-circular indeterminate size="64"></v-progress-circular>
-    </v-overlay>
+    </v-overlay> -->
   </div>
 </template>
 
@@ -161,7 +161,8 @@ export default {
       datePickerDialog: false,
       currentTask: { _id: '', name: '', done: false, due_date: '', group_id: '' },
       dialogUpdates: { name: '', due_date: '', group_id: '' },
-      groupValue: []
+      groupValue: [],
+      dataLoading: false
     }
   },
   computed: {
@@ -174,7 +175,9 @@ export default {
     }
   },
   async created() {
-    this.fetchTasks()
+    this.dataLoading = true
+    await this.fetchTasks()
+    this.dataLoading = false
     this.fetchGroups()
   },
   methods: {
