@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-loading.fullscreen.lock="fullscreenLoading">
     <v-text-field
       v-if="searchModel"
       class="pb-5"
@@ -158,7 +158,8 @@ export default {
       currentTask: { _id: '', name: '', done: false, due_date: '', group_id: '' },
       dialogUpdates: { name: '', due_date: '', group_id: '' },
       groupValue: [],
-      dataLoading: false
+      dataLoading: false,
+      fullscreenLoading: false
     }
   },
   computed: {
@@ -183,9 +184,11 @@ export default {
       Object.assign(this.currentTask, task)
       this.deleteDialog = true
     },
-    deleteDialogConfirmclick() {
+    async deleteDialogConfirmclick() {
       this.deleteDialog = false
-      this.deleteTask(this.currentTask._id)
+      this.fullscreenLoading = true
+      await this.deleteTask(this.currentTask._id)
+      this.fullscreenLoading = false
     },
     editClick(task) {
       Object.assign(this.currentTask, task)
@@ -195,10 +198,12 @@ export default {
       this.dialogUpdates.group_id = task.group_id
     },
     // perform the real updates
-    editDialogConfirmclick() {
+    async editDialogConfirmclick() {
       this.editDialog = false
       if (this.dialogUpdates.name !== this.currentTask.name || this.dialogUpdates.due_date !== this.currentTask.due_date || this.dialogUpdates.group_id !== this.currentTask.group_id) {
-        this.updateTask({ _id: this.currentTask._id, updates: this.dialogUpdates })
+        this.fullscreenLoading = true
+        await this.updateTask({ _id: this.currentTask._id, updates: this.dialogUpdates })
+        this.fullscreenLoading = false
       }
       this.dialogUpdates = { name: '', due_date: '', group_id: '' }
     }

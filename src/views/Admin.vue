@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-loading.fullscreen.lock="fullscreenLoading">
     <h1>User management</h1>
     <v-btn @click="addDialog = true">Add New User</v-btn>
     <v-data-table
@@ -125,7 +125,8 @@ export default {
       deleteDialog: false,
       editDialog: false,
       currentUser: { _id: '', username: '' },
-      dialogUpdates: { username: '', password: '' }
+      dialogUpdates: { username: '', password: '' },
+      fullscreenLoading: false
     }
   },
   created() {
@@ -139,7 +140,9 @@ export default {
       this.users = users
     },
     async addDialogConfirmClick() {
+      this.fullscreenLoading = true
       const { data } = await this.$http.post('/user', this.newUser)
+      this.fullscreenLoading = false
       if (data.status === 'success') {
         this.addDialog = false
         this.fetchUsers()
@@ -153,7 +156,9 @@ export default {
     },
     async deleteDialogConfirmClick() {
       this.deleteDialog = false
+      this.fullscreenLoading = true
       const { data } = await this.$http.delete(`/user/${this.currentUser._id}`)
+      this.fullscreenLoading = false
       if (data.status === 'success') {
         this.deleteDialog = false
         this.fetchUsers()
@@ -166,10 +171,12 @@ export default {
     },
     async editDialogConfirmClick() {
       this.editDialog = false
+      this.fullscreenLoading = true
       const { data } = await this.$http.patch(`/user/${this.currentUser._id}`, this.dialogUpdates)
+      this.fullscreenLoading = false
       if (data.status === 'success') {
         this.editDialog = false
-        this.fetchUsers()
+        await this.fetchUsers()
       }
       this.dialogUpdates = { username: '', password: '' }
     }

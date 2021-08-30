@@ -48,7 +48,6 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
 
 export default {
   name: 'Main',
@@ -61,9 +60,6 @@ export default {
       ],
       drawer: null
     }
-  },
-  computed: {
-    ...mapState(['snackbar'])
   },
   methods: {
     logout() {

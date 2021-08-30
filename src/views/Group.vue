@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-loading.fullscreen.lock="fullscreenLoading">
     <h1>Group management</h1>
     <v-text-field
       v-model="newGroupName"
@@ -94,7 +94,8 @@ export default {
       editDialog: false,
       currentGroup: { _id: '', name: '' },
       dialogUpdates: { name: '' },
-      dataLoading: false
+      dataLoading: false,
+      fullscreenLoading: false
     }
   },
   async created() {
@@ -112,7 +113,7 @@ export default {
       Object.assign(this.currentGroup, group)
       this.deleteDialog = true
     },
-    deleteDialogConfirmclick() {
+    async deleteDialogConfirmclick() {
       this.deleteDialog = false
       const taskInGroup = this.tasks.find(task => task.group_id === this.currentGroup._id)
       if (taskInGroup) {
@@ -122,15 +123,19 @@ export default {
           type: 'error'
         })
       } else {
-        this.deleteGroup(this.currentGroup._id)
+        this.fullscreenLoading = true
+        await this.deleteGroup(this.currentGroup._id)
+        this.fullscreenLoading = false
       }
     },
-    addGroupClick() {
+    async addGroupClick() {
       if (this.newGroupName.trim() == '') return
       const newGroup = {
         name: this.newGroupName
       }
-      this.addGroup(newGroup)
+      this.fullscreenLoading = true
+      await this.addGroup(newGroup)
+      this.fullscreenLoading = false
       this.newGroupName = ''
     },
     editClick(group) {
@@ -138,10 +143,12 @@ export default {
       this.editDialog = true
       this.dialogUpdates.name = group.name
     },
-    editDialogConfirmclick() {
+    async editDialogConfirmclick() {
       this.editDialog = false
       if (this.dialogUpdates.name !== this.currentGroup.name) {
-        this.updateGroup({ _id: this.currentGroup._id, updates: this.dialogUpdates })
+        this.fullscreenLoading = true
+        await this.updateGroup({ _id: this.currentGroup._id, updates: this.dialogUpdates })
+        this.fullscreenLoading = false
       }
       this.dialogUpdates = { name: '' }
     }
