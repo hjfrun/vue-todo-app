@@ -22,7 +22,7 @@
         </v-list-item>
       </v-list>
       <template v-slot:append>
-        <div class="pa-2 mb-10">
+        <div class="pa-2 mb-16">
           <v-btn block @click="logout">
             Logout
             <v-icon>mdi-logout</v-icon>
