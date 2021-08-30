@@ -104,16 +104,10 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-
-    <!-- updating overlay -->
-    <v-overlay :value="updating">
-      <v-progress-circular indeterminate size="64"></v-progress-circular>
-    </v-overlay>
   </div>
 </template>
 
 <script>
-import { mapState } from 'vuex'
 export default {
   data() {
     return {
@@ -136,9 +130,6 @@ export default {
   },
   created() {
     this.fetchUsers()
-  },
-  computed: {
-    ...mapState(['updating', 'loading'])
   },
   methods: {
     async fetchUsers() {

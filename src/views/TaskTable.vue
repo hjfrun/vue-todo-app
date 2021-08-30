@@ -130,10 +130,6 @@
         @input="datePickerDialog = false"
       ></v-date-picker>
     </v-dialog>
-    <!-- updating overlay -->
-    <!-- <v-overlay :value="updating">
-      <v-progress-circular indeterminate size="64"></v-progress-circular>
-    </v-overlay> -->
   </div>
 </template>
 
@@ -166,7 +162,7 @@ export default {
     }
   },
   computed: {
-    ...mapState(['updating', 'snackbar', 'searchModel']),
+    ...mapState(['searchModel']),
     ...mapState('task', ['tasks']),
     ...mapState('group', ['groups']),
     ...mapGetters('group', ['groupItems']),

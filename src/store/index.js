@@ -8,11 +8,6 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    updating: false,
-    snackbar: {
-      show: false,
-      text: ''
-    },
     searchModel: false,
   },
   getters: {},

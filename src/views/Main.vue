@@ -33,7 +33,7 @@
 
     <v-app-bar app>
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
-      <v-toolbar-title>Todo</v-toolbar-title>
+      <v-toolbar-title>My Todo</v-toolbar-title>
       <v-spacer></v-spacer>
 
       <v-btn icon @click="$store.commit('SWITCH_SEARCH_MODEL')">
