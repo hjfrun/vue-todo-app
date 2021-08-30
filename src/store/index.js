@@ -19,13 +19,6 @@ export default new Vuex.Store({
   mutations: {
     SWITCH_SEARCH_MODEL(state) {
       state.searchModel = !state.searchModel
-    },
-    UPDATE_UPDATING(state, updating) {
-      state.updating = updating
-    },
-    SHOW_SNACKBAR(state, text) {
-      state.snackbar.show = true
-      state.snackbar.text = text
     }
   },
   actions: {},

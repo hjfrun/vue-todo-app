@@ -119,7 +119,11 @@ export default {
       this.deleteDialog = false
       const taskInGroup = this.tasks.find(task => task.group_id === this.currentGroup._id)
       if (taskInGroup) {
-        this.$store.commit('SHOW_SNACKBAR', 'There are tasks under this group, you cannot delete it now!')
+        this.$message({
+          showClose: true,
+          message: 'There are tasks under this group, you cannot delete it now!',
+          type: 'error'
+        })
       } else {
         this.deleteGroup(this.currentGroup._id)
       }

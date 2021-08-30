@@ -166,7 +166,7 @@ export default {
     }
   },
   computed: {
-    ...mapState(['loading', 'updating', 'snackbar', 'searchModel']),
+    ...mapState(['updating', 'snackbar', 'searchModel']),
     ...mapState('task', ['tasks']),
     ...mapState('group', ['groups']),
     ...mapGetters('group', ['groupItems']),
