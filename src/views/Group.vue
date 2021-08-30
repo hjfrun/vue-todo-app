@@ -105,10 +105,12 @@ export default {
     this.fetchGroups()
   },
   computed: {
-    ...mapState(['groups', 'updating', 'loading', 'tasks'])
+    ...mapState(['updating', 'loading']),
+    ...mapState('group', ['groups']),
+    ...mapState('task', ['tasks'])
   },
   methods: {
-    ...mapActions(['fetchGroups', 'addGroup', 'deleteGroup', 'updateGroup']),
+    ...mapActions('group', ['fetchGroups', 'addGroup', 'deleteGroup', 'updateGroup']),
     deleteClick(group) {
       Object.assign(this.currentGroup, group)
       this.deleteDialog = true

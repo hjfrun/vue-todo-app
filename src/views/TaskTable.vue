@@ -165,8 +165,10 @@ export default {
     }
   },
   computed: {
-    ...mapState(['loading', 'updating', 'tasks', 'snackbar', 'searchModel', 'groups']),
-    ...mapGetters(['groupItems']),
+    ...mapState(['loading', 'updating', 'snackbar', 'searchModel']),
+    ...mapState('task', ['tasks']),
+    ...mapState('group', ['groups']),
+    ...mapGetters('group', ['groupItems']),
     filteredTasks() {
       return this.tasks.filter(e => this.groupValue.includes(e.group_id) || this.groupValue.length === 0)
     }
@@ -176,7 +178,8 @@ export default {
     this.fetchGroups()
   },
   methods: {
-    ...mapActions(['fetchTasks', 'deleteTask', 'updateTask', 'fetchGroups']),
+    ...mapActions('group', ['fetchGroups']),
+    ...mapActions('task', ['fetchTasks', 'deleteTask', 'updateTask']),
     deleteClick(task) {
       Object.assign(this.currentTask, task)
       this.deleteDialog = true

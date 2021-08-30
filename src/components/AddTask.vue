@@ -22,7 +22,7 @@ export default {
   },
 
   methods: {
-    ...mapActions(['addTask']),
+    ...mapActions('task', ['addTask']),
 
     addTaskClick() {
       if (this.newTaskName.trim() == '') return

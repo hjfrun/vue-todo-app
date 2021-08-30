@@ -148,7 +148,6 @@ export default {
       this.users = users
     },
     async addDialogConfirmClick() {
-      console.log('this.newUser :>> ', this.newUser)
       const { data } = await this.$http.post('/user', this.newUser)
       if (data.status === 'success') {
         this.addDialog = false
