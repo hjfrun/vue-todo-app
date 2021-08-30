@@ -78,11 +78,19 @@ export default {
         })
       }
 
+      const loading = this.$loading({
+        lock: true,
+        text: 'Logging in...',
+        spinner: 'el-icon-loading',
+        background: 'rgba(0, 0, 0, 0.7)'
+      })
+
       try {
         const res = await this.$http.post('/login', this.user)
         const { token } = res.data
         sessionStorage.token = token
         this.$router.push('/')
+        loading.close()
         this.$message({
           showClose: true,
           message: 'Login Successfully!',
@@ -91,6 +99,7 @@ export default {
         })
       } catch (err) {
         const { msg } = err.response.data
+        loading.close()
         this.$message({
           showClose: true,
           message: msg,
