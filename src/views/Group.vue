@@ -14,7 +14,7 @@
       :headers="headers"
       :items="groups"
       class="elevation-1"
-      :loading="loading"
+      :loading="dataLoading"
       loading-text="Loading... Please wait"
       :items-per-page="15"
     >
@@ -77,11 +77,6 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-
-    <!-- updating overlay -->
-    <v-overlay :value="updating">
-      <v-progress-circular indeterminate size="64"></v-progress-circular>
-    </v-overlay>
   </div>
 </template>
 
@@ -98,14 +93,16 @@ export default {
       deleteDialog: false,
       editDialog: false,
       currentGroup: { _id: '', name: '' },
-      dialogUpdates: { name: '' }
+      dialogUpdates: { name: '' },
+      dataLoading: false
     }
   },
-  created() {
-    this.fetchGroups()
+  async created() {
+    this.dataLoading = true
+    await this.fetchGroups()
+    this.dataLoading = false
   },
   computed: {
-    ...mapState(['updating', 'loading']),
     ...mapState('group', ['groups']),
     ...mapState('task', ['tasks'])
   },
