@@ -145,9 +145,14 @@ export default {
       this.fullscreenLoading = false
       if (data.status === 'success') {
         this.addDialog = false
-        this.fetchUsers()
+        await this.fetchUsers()
         this.newUser = { username: '', password: '' }
         // popup a message to info the user added successfully!
+        this.$message({
+          showClose: true,
+          message: data.msg,
+          type: 'success'
+        })
       }
     },
     deleteClick(user) {
@@ -161,7 +166,13 @@ export default {
       this.fullscreenLoading = false
       if (data.status === 'success') {
         this.deleteDialog = false
-        this.fetchUsers()
+        await this.fetchUsers()
+
+        this.$message({
+          showClose: true,
+          message: data.msg,
+          type: 'success'
+        })
       }
     },
     editClick(user) {
@@ -177,6 +188,12 @@ export default {
       if (data.status === 'success') {
         this.editDialog = false
         await this.fetchUsers()
+
+        this.$message({
+          showClose: true,
+          message: data.msg,
+          type: 'success'
+        })
       }
       this.dialogUpdates = { username: '', password: '' }
     }
