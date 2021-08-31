@@ -1,9 +1,26 @@
 export default {
-  msg: '你好，世界',
   login: '登录',
+  logout: '退出',
   username: '用户名',
   password: '密码',
   login2do: '登录我的待办',
   requireUsername: '需要输入用户名',
-  requirePassword: '需要输入密码'
+  requirePassword: '需要输入密码',
+  appTitle: '我的待办',
+  todo: '待办列表',
+  group: '分组',
+  about: '关于',
+  status: '状态',
+  name: '名称',
+  due_date: '截止日期',
+  update_time: '更新时间',
+  actions: '操作',
+  search: '搜索',
+  deleteWarn: '确定要删除这个任务吗?',
+  cancel: '取消',
+  yes: '是的',
+  editWarn: '修改当前待办',
+  taskName: '任务名称',
+  done: '确定',
+  filterByGroup: '分组筛选'
 }

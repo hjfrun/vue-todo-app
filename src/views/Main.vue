@@ -1,6 +1,5 @@
 <template>
   <v-app>
-    <p>{{ $t("msg") }}</p>
     <v-navigation-drawer v-model="drawer" app disable-resize-watcher>
       <v-list-item>
         <v-list-item-content>
@@ -25,8 +24,8 @@
       <template v-slot:append>
         <div class="pa-2 mb-16">
           <v-btn block @click="logout">
-            Logout
-            <v-icon>mdi-logout</v-icon>
+            {{ $t("logout") }}
+            <v-icon class="pl-3">mdi-logout</v-icon>
           </v-btn>
         </div>
       </template>
@@ -34,7 +33,7 @@
 
     <v-app-bar app>
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
-      <v-toolbar-title>My Todo</v-toolbar-title>
+      <v-toolbar-title>{{ $t("appTitle") }}</v-toolbar-title>
       <v-spacer></v-spacer>
 
       <v-btn icon @click="$store.commit('SWITCH_SEARCH_MODEL')">
@@ -58,9 +57,9 @@ export default {
   data() {
     return {
       items: [
-        { title: 'Todo', icon: 'mdi-format-list-checks', to: '/' },
-        { title: 'Group', icon: 'mdi-tag-multiple', to: '/group' },
-        { title: 'About', icon: 'mdi-help-box', to: '/about' }
+        { title: this.$t('todo'), icon: 'mdi-format-list-checks', to: '/' },
+        { title: this.$t('group'), icon: 'mdi-tag-multiple', to: '/group' },
+        { title: this.$t('about'), icon: 'mdi-help-box', to: '/about' }
       ],
       drawer: null
     }

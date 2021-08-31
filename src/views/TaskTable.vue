@@ -4,7 +4,7 @@
       v-if="searchModel"
       class="pb-5"
       v-model="search"
-      label="Search"
+      :label="$t('search')"
       append-icon="mdi-magnify"
       single-line
       hide-details
@@ -16,7 +16,7 @@
       v-model="groupValue"
       :items="groupItems"
       chips
-      label="Filter by Groups"
+      :label="$t('filterByGroup')"
       multiple
     ></v-select>
     <v-data-table
@@ -54,7 +54,7 @@
     <v-dialog v-model="deleteDialog" max-width="320">
       <v-card>
         <v-card-title class="text-h5 text-break-keep-all">
-          Are you sure you wanna delete this task?
+          {{ $t("deleteWarn") }}
         </v-card-title>
         <v-card-text class="text-break-keep-all">
           {{ currentTask.name }}</v-card-text
@@ -62,10 +62,10 @@
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn color="primary darken-1" text @click="deleteDialog = false">
-            Cancel
+            {{ $t("cancel") }}
           </v-btn>
           <v-btn color="red darken-2" text @click="deleteDialogConfirmclick">
-            Yes
+            {{ $t("yes") }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -75,12 +75,11 @@
     <v-dialog v-model="editDialog" max-width="320">
       <v-card>
         <v-card-title class="text-h5 text-break-keep-all">
-          Edit the current task
-        </v-card-title>
-
+          {{ $t("editWarn") }}</v-card-title
+        >
         <v-card-text>
           <v-text-field
-            placeholder="Task name"
+            :placeholder="$t('taskName')"
             v-model="dialogUpdates.name"
             @keyup.enter="editDialogConfirmclick"
           ></v-text-field>
@@ -91,14 +90,14 @@
             class="mt-4"
             :items="groupItems"
             v-model="dialogUpdates.group_id"
-            label="Group"
+            :placeholder="$t('group')"
           >
           </v-select>
         </v-card-text>
 
         <v-card-text>
           <v-text-field
-            label="Due Date"
+            :placeholder="$t('due_date')"
             v-model="dialogUpdates.due_date"
             readonly
             @click="datePickerDialog = true"
@@ -112,11 +111,11 @@
           <v-spacer></v-spacer>
 
           <v-btn color="primary darken-1" text @click="editDialog = false">
-            Cancel
+            {{ $t("cancel") }}
           </v-btn>
 
           <v-btn color="orange darken-2" text @click="editDialogConfirmclick">
-            Done
+            {{ $t("done") }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -146,11 +145,11 @@ export default {
     return {
       search: '',
       headers: [
-        { text: 'Status', value: 'done', align: 'center', width: '90px' },
-        { text: 'Name', value: 'name' },
-        { text: 'Due Date', value: 'due_date', width: '150px' },
-        { text: 'Update Time', value: 'updatedAt', width: '200px' },
-        { text: 'Actions', value: 'actions', width: '100px', sortable: false, filterable: false }
+        { text: this.$t('status'), value: 'done', align: 'center', width: '90px' },
+        { text: this.$t('name'), value: 'name' },
+        { text: this.$t('due_date'), value: 'due_date', width: '150px' },
+        { text: this.$t('update_time'), value: 'updatedAt', width: '200px' },
+        { text: this.$t('actions'), value: 'actions', width: '100px', sortable: false, filterable: false }
       ],
       deleteDialog: false,
       editDialog: false,
