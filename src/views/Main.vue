@@ -3,8 +3,10 @@
     <v-navigation-drawer v-model="drawer" app disable-resize-watcher>
       <v-list-item>
         <v-list-item-content>
-          <v-list-item-title class="text-h6"> Best Todo App</v-list-item-title>
-          <v-list-item-subtitle> By He Jianfeng! </v-list-item-subtitle>
+          <v-list-item-title class="text-h6">
+            {{ $t("appTitle") }}</v-list-item-title
+          >
+          <v-list-item-subtitle> {{ $t("byAuthor") }} </v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
 

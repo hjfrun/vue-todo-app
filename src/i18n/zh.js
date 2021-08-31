@@ -28,5 +28,6 @@ export default {
   groupMag: '分组管理',
   deleteGroupWarn: '确定要删除当前分组吗?',
   editGroupWarn: '修改当前分组',
-  groupName: '分组名称'
+  groupName: '分组名称',
+  byAuthor: 'By He Jianfeng!'
 }

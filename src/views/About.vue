@@ -46,12 +46,14 @@
         <input type="checkbox" disabled checked /> Task by Group
       </li>
       <li class="task-list-item">
+        <input type="checkbox" disabled checked /> i18n
+      </li>
+      <li class="task-list-item">
         <input type="checkbox" disabled /> Task Priority
       </li>
       <li class="task-list-item">
         <input type="checkbox" disabled /> Register Page
       </li>
-      <li class="task-list-item"><input type="checkbox" disabled /> i18n</li>
       <li class="task-list-item">
         <input type="checkbox" disabled /> Cookies Support
       </li>

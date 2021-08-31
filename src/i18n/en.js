@@ -28,7 +28,6 @@ export default {
   groupMag: 'Group Management',
   deleteGroupWarn: 'Are you sure you wanna delete this group?',
   editGroupWarn: 'Edit the current group',
-  groupName: 'Group Name'
-
-
+  groupName: 'Group Name',
+  byAuthor: 'By He Jianfeng!'
 }
