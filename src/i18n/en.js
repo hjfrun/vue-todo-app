@@ -22,5 +22,13 @@ export default {
   editWarn: 'Edit the current task',
   taskName: 'Task Name',
   done: 'Done',
-  filterByGroup: 'Filter by Groups'
+  filterByGroup: 'Filter by Groups',
+  addTask: 'Add Task',
+  addGroup: 'Add Group',
+  groupMag: 'Group Management',
+  deleteGroupWarn: 'Are you sure you wanna delete this group?',
+  editGroupWarn: 'Edit the current group',
+  groupName: 'Group Name'
+
+
 }

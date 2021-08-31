@@ -22,5 +22,11 @@ export default {
   editWarn: '修改当前待办',
   taskName: '任务名称',
   done: '确定',
-  filterByGroup: '分组筛选'
+  filterByGroup: '分组筛选',
+  addTask: '添加任务',
+  addGroup: '添加分组',
+  groupMag: '分组管理',
+  deleteGroupWarn: '确定要删除当前分组吗?',
+  editGroupWarn: '修改当前分组',
+  groupName: '分组名称'
 }

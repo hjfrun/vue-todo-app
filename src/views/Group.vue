@@ -1,12 +1,12 @@
 <template>
   <div v-loading.fullscreen.lock="fullscreenLoading">
-    <h1>Group management</h1>
+    <h1>{{ $t("groupMag") }}</h1>
     <v-text-field
       v-model="newGroupName"
       @click:append="addGroupClick"
       @keyup.enter="addGroupClick"
       outlined
-      label="Add Group"
+      :label="$t('addGroup')"
       append-icon="mdi-plus"
       clearable
     ></v-text-field>
@@ -32,7 +32,7 @@
     <v-dialog v-model="deleteDialog" max-width="320">
       <v-card>
         <v-card-title class="text-h5 text-break-keep-all">
-          Are you sure you wanna delete this group?
+          {{ $t("deleteGroupWarn") }}
         </v-card-title>
         <v-card-text class="text-break-keep-all">
           {{ currentGroup.name }}</v-card-text
@@ -40,10 +40,10 @@
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn color="primary darken-1" text @click="deleteDialog = false">
-            Cancel
+            {{ $t("cancel") }}
           </v-btn>
           <v-btn color="red darken-2" text @click="deleteDialogConfirmclick">
-            Yes
+            {{ $t("yes") }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -53,12 +53,12 @@
     <v-dialog v-model="editDialog" max-width="320">
       <v-card>
         <v-card-title class="text-h5 text-break-keep-all">
-          Edit the current group
+          {{ $t("editGroupWarn") }}
         </v-card-title>
 
         <v-card-text>
           <v-text-field
-            placeholder="Group name"
+            :placeholder="$t('groupName')"
             v-model="dialogUpdates.name"
             @keyup.enter="editDialogConfirmclick"
           ></v-text-field>
@@ -68,11 +68,10 @@
           <v-spacer></v-spacer>
 
           <v-btn color="primary darken-1" text @click="editDialog = false">
-            Cancel
+            {{ $t("cancel") }}
           </v-btn>
-
           <v-btn color="orange darken-2" text @click="editDialogConfirmclick">
-            Done
+            {{ $t("done") }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -87,8 +86,8 @@ export default {
     return {
       newGroupName: '',
       headers: [
-        { text: 'Name', value: 'name' },
-        { text: 'Actions', value: 'actions', width: '100px', sortable: false, filterable: false }
+        { text: this.$t('name'), value: 'name' },
+        { text: this.$t('actions'), value: 'actions', width: '100px', sortable: false, filterable: false }
       ],
       deleteDialog: false,
       editDialog: false,

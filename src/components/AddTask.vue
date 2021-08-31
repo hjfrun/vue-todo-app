@@ -4,7 +4,7 @@
     @click:append="addTaskClick"
     @keyup.enter="addTaskClick"
     outlined
-    label="Add Task"
+    :label="$t('addTask')"
     append-icon="mdi-plus"
     hide-details
     clearable
