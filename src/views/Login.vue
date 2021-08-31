@@ -2,17 +2,19 @@
   <v-app>
     <v-main>
       <v-card width="500" class="login-card" elevatino="6">
-        <v-card-title style="justify-content: center">ToDo Login</v-card-title>
+        <v-card-title style="justify-content: center">{{
+          $t("login2do")
+        }}</v-card-title>
         <v-card-text>
           <v-text-field
-            label="Username"
+            :label="$t('username')"
             v-model="user.username"
             prepend-icon="mdi-account-circle"
             :rules="nameRules"
             required
           />
           <v-text-field
-            label="Password"
+            :label="$t('password')"
             v-model="user.password"
             :type="showPassword ? 'text' : 'password'"
             prepend-icon="mdi-lock"
@@ -25,9 +27,9 @@
         </v-card-text>
 
         <v-card-actions>
-          <v-btn class="mx-auto" large color="success" @click="login"
-            >Login</v-btn
-          >
+          <v-btn class="mx-auto" large color="success" @click="login">{{
+            $t("login")
+          }}</v-btn>
         </v-card-actions>
       </v-card>
     </v-main>
@@ -42,10 +44,10 @@ export default {
       user: {},
       showPassword: false,
       nameRules: [
-        v => !!v || 'Username is required'
+        v => !!v || this.$t('requireUsername')
       ],
       passwordRules: [
-        v => !!v || 'Password is required'
+        v => !!v || this.$t('requirePassword')
       ]
     }
   },

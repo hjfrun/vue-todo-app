@@ -1,5 +1,6 @@
 <template>
   <v-app>
+    <p>{{ $t("msg") }}</p>
     <v-navigation-drawer v-model="drawer" app disable-resize-watcher>
       <v-list-item>
         <v-list-item-content>
@@ -39,6 +40,9 @@
       <v-btn icon @click="$store.commit('SWITCH_SEARCH_MODEL')">
         <v-icon>mdi-magnify</v-icon>
       </v-btn>
+      <v-btn icon @click="switchLang">
+        <v-icon>mdi-translate</v-icon>
+      </v-btn>
     </v-app-bar>
 
     <v-container>
@@ -65,6 +69,11 @@ export default {
     logout() {
       sessionStorage.token = ''
       this.$router.push('/login')
+    },
+    switchLang() {
+      const lang = this.$i18n.locale
+      this.$i18n.locale = lang === 'zh' ? 'en' : 'zh'
+      localStorage.setItem('lang', this.$i18n.locale)
     }
   }
 }
