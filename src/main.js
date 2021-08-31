@@ -7,6 +7,10 @@ import vuetify from './plugins/vuetify'
 import http from './http'
 import './plugins/element.js'
 
+import VueI18n from 'vue-i18n'
+
+Vue.use(VueI18n)
+
 Vue.prototype.$http = http
 
 Vue.config.productionTip = false
